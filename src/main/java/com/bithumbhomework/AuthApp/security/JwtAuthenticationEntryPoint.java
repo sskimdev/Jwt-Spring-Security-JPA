@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.security;
+package com.bithumbhomework.AuthApp.security;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

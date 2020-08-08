@@ -11,11 +11,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.model;
+package com.bithumbhomework.AuthApp.model;
 
-import com.accolite.pru.health.AuthApp.model.audit.DateAudit;
-import com.accolite.pru.health.AuthApp.validation.annotation.NullOrNotBlank;
 import org.hibernate.annotations.NaturalId;
+
+import com.bithumbhomework.AuthApp.model.audit.DateAudit;
+import com.bithumbhomework.AuthApp.validation.annotation.NullOrNotBlank;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

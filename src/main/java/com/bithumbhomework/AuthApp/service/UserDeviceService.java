@@ -11,15 +11,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.service;
+package com.bithumbhomework.AuthApp.service;
 
-import com.accolite.pru.health.AuthApp.exception.TokenRefreshException;
-import com.accolite.pru.health.AuthApp.model.UserDevice;
-import com.accolite.pru.health.AuthApp.model.payload.DeviceInfo;
-import com.accolite.pru.health.AuthApp.model.token.RefreshToken;
-import com.accolite.pru.health.AuthApp.repository.UserDeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.bithumbhomework.AuthApp.exception.TokenRefreshException;
+import com.bithumbhomework.AuthApp.model.UserDevice;
+import com.bithumbhomework.AuthApp.model.payload.DeviceInfo;
+import com.bithumbhomework.AuthApp.model.token.RefreshToken;
+import com.bithumbhomework.AuthApp.repository.UserDeviceRepository;
 
 import java.util.Optional;
 

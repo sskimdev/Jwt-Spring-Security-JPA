@@ -11,22 +11,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.advice;
+package com.bithumbhomework.AuthApp.advice;
 
-import com.accolite.pru.health.AuthApp.exception.AppException;
-import com.accolite.pru.health.AuthApp.exception.BadRequestException;
-import com.accolite.pru.health.AuthApp.exception.InvalidTokenRequestException;
-import com.accolite.pru.health.AuthApp.exception.MailSendException;
-import com.accolite.pru.health.AuthApp.exception.PasswordResetException;
-import com.accolite.pru.health.AuthApp.exception.PasswordResetLinkException;
-import com.accolite.pru.health.AuthApp.exception.ResourceAlreadyInUseException;
-import com.accolite.pru.health.AuthApp.exception.ResourceNotFoundException;
-import com.accolite.pru.health.AuthApp.exception.TokenRefreshException;
-import com.accolite.pru.health.AuthApp.exception.UpdatePasswordException;
-import com.accolite.pru.health.AuthApp.exception.UserLoginException;
-import com.accolite.pru.health.AuthApp.exception.UserLogoutException;
-import com.accolite.pru.health.AuthApp.exception.UserRegistrationException;
-import com.accolite.pru.health.AuthApp.model.payload.ApiResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -43,6 +29,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+
+import com.bithumbhomework.AuthApp.exception.AppException;
+import com.bithumbhomework.AuthApp.exception.BadRequestException;
+import com.bithumbhomework.AuthApp.exception.InvalidTokenRequestException;
+import com.bithumbhomework.AuthApp.exception.MailSendException;
+import com.bithumbhomework.AuthApp.exception.PasswordResetException;
+import com.bithumbhomework.AuthApp.exception.PasswordResetLinkException;
+import com.bithumbhomework.AuthApp.exception.ResourceAlreadyInUseException;
+import com.bithumbhomework.AuthApp.exception.ResourceNotFoundException;
+import com.bithumbhomework.AuthApp.exception.TokenRefreshException;
+import com.bithumbhomework.AuthApp.exception.UpdatePasswordException;
+import com.bithumbhomework.AuthApp.exception.UserLoginException;
+import com.bithumbhomework.AuthApp.exception.UserLogoutException;
+import com.bithumbhomework.AuthApp.exception.UserRegistrationException;
+import com.bithumbhomework.AuthApp.model.payload.ApiResponse;
 
 import java.util.List;
 import java.util.Locale;

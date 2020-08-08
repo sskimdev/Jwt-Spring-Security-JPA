@@ -11,31 +11,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.controller;
+package com.bithumbhomework.AuthApp.controller;
 
-import com.accolite.pru.health.AuthApp.annotation.CurrentUser;
-import com.accolite.pru.health.AuthApp.event.OnGenerateResetLinkEvent;
-import com.accolite.pru.health.AuthApp.event.OnRegenerateEmailVerificationEvent;
-import com.accolite.pru.health.AuthApp.event.OnUserAccountChangeEvent;
-import com.accolite.pru.health.AuthApp.event.OnUserRegistrationCompleteEvent;
-import com.accolite.pru.health.AuthApp.exception.InvalidTokenRequestException;
-import com.accolite.pru.health.AuthApp.exception.PasswordResetException;
-import com.accolite.pru.health.AuthApp.exception.PasswordResetLinkException;
-import com.accolite.pru.health.AuthApp.exception.TokenRefreshException;
-import com.accolite.pru.health.AuthApp.exception.UserLoginException;
-import com.accolite.pru.health.AuthApp.exception.UserRegistrationException;
-import com.accolite.pru.health.AuthApp.model.CustomUserDetails;
-import com.accolite.pru.health.AuthApp.model.payload.ApiResponse;
-import com.accolite.pru.health.AuthApp.model.payload.JwtAuthenticationResponse;
-import com.accolite.pru.health.AuthApp.model.payload.LoginRequest;
-import com.accolite.pru.health.AuthApp.model.payload.PasswordResetLinkRequest;
-import com.accolite.pru.health.AuthApp.model.payload.PasswordResetRequest;
-import com.accolite.pru.health.AuthApp.model.payload.RegistrationRequest;
-import com.accolite.pru.health.AuthApp.model.payload.TokenRefreshRequest;
-import com.accolite.pru.health.AuthApp.model.token.EmailVerificationToken;
-import com.accolite.pru.health.AuthApp.model.token.RefreshToken;
-import com.accolite.pru.health.AuthApp.security.JwtTokenProvider;
-import com.accolite.pru.health.AuthApp.service.AuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -54,6 +31,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.bithumbhomework.AuthApp.annotation.CurrentUser;
+import com.bithumbhomework.AuthApp.event.OnGenerateResetLinkEvent;
+import com.bithumbhomework.AuthApp.event.OnRegenerateEmailVerificationEvent;
+import com.bithumbhomework.AuthApp.event.OnUserAccountChangeEvent;
+import com.bithumbhomework.AuthApp.event.OnUserRegistrationCompleteEvent;
+import com.bithumbhomework.AuthApp.exception.InvalidTokenRequestException;
+import com.bithumbhomework.AuthApp.exception.PasswordResetException;
+import com.bithumbhomework.AuthApp.exception.PasswordResetLinkException;
+import com.bithumbhomework.AuthApp.exception.TokenRefreshException;
+import com.bithumbhomework.AuthApp.exception.UserLoginException;
+import com.bithumbhomework.AuthApp.exception.UserRegistrationException;
+import com.bithumbhomework.AuthApp.model.CustomUserDetails;
+import com.bithumbhomework.AuthApp.model.payload.ApiResponse;
+import com.bithumbhomework.AuthApp.model.payload.JwtAuthenticationResponse;
+import com.bithumbhomework.AuthApp.model.payload.LoginRequest;
+import com.bithumbhomework.AuthApp.model.payload.PasswordResetLinkRequest;
+import com.bithumbhomework.AuthApp.model.payload.PasswordResetRequest;
+import com.bithumbhomework.AuthApp.model.payload.RegistrationRequest;
+import com.bithumbhomework.AuthApp.model.payload.TokenRefreshRequest;
+import com.bithumbhomework.AuthApp.model.token.EmailVerificationToken;
+import com.bithumbhomework.AuthApp.model.token.RefreshToken;
+import com.bithumbhomework.AuthApp.security.JwtTokenProvider;
+import com.bithumbhomework.AuthApp.service.AuthService;
 
 import javax.validation.Valid;
 import java.util.Optional;

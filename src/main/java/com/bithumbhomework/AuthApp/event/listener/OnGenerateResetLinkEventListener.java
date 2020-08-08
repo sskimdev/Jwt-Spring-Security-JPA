@@ -11,19 +11,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.event.listener;
+package com.bithumbhomework.AuthApp.event.listener;
 
-import com.accolite.pru.health.AuthApp.event.OnGenerateResetLinkEvent;
-import com.accolite.pru.health.AuthApp.exception.MailSendException;
-import com.accolite.pru.health.AuthApp.model.PasswordResetToken;
-import com.accolite.pru.health.AuthApp.model.User;
-import com.accolite.pru.health.AuthApp.service.MailService;
 import freemarker.template.TemplateException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import com.bithumbhomework.AuthApp.event.OnGenerateResetLinkEvent;
+import com.bithumbhomework.AuthApp.exception.MailSendException;
+import com.bithumbhomework.AuthApp.model.PasswordResetToken;
+import com.bithumbhomework.AuthApp.model.User;
+import com.bithumbhomework.AuthApp.service.MailService;
 
 import javax.mail.MessagingException;
 import java.io.IOException;

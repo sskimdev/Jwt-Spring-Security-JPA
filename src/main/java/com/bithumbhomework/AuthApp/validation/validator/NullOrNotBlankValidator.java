@@ -11,12 +11,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.validation.validator;
-
-import com.accolite.pru.health.AuthApp.validation.annotation.NullOrNotBlank;
+package com.bithumbhomework.AuthApp.validation.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import com.bithumbhomework.AuthApp.validation.annotation.NullOrNotBlank;
 
 public class NullOrNotBlankValidator implements ConstraintValidator<NullOrNotBlank, String> {
 

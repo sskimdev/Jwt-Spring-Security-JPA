@@ -11,11 +11,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.security;
+package com.bithumbhomework.AuthApp.security;
 
-import com.accolite.pru.health.AuthApp.cache.LoggedOutJwtTokenCache;
-import com.accolite.pru.health.AuthApp.event.OnUserLogoutSuccessEvent;
-import com.accolite.pru.health.AuthApp.exception.InvalidTokenRequestException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -25,6 +22,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.bithumbhomework.AuthApp.cache.LoggedOutJwtTokenCache;
+import com.bithumbhomework.AuthApp.event.OnUserLogoutSuccessEvent;
+import com.bithumbhomework.AuthApp.exception.InvalidTokenRequestException;
 
 import java.util.Date;
 

@@ -11,14 +11,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.security;
+package com.bithumbhomework.AuthApp.security;
 
-import com.accolite.pru.health.AuthApp.model.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.bithumbhomework.AuthApp.model.CustomUserDetails;
 
 import java.time.Instant;
 import java.util.Date;

@@ -11,11 +11,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.event;
+package com.bithumbhomework.AuthApp.event;
 
-import com.accolite.pru.health.AuthApp.model.PasswordResetToken;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.bithumbhomework.AuthApp.model.PasswordResetToken;
 
 public class OnGenerateResetLinkEvent extends ApplicationEvent {
 

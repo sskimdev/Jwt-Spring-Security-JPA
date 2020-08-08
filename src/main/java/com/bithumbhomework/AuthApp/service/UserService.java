@@ -11,21 +11,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.service;
+package com.bithumbhomework.AuthApp.service;
 
-import com.accolite.pru.health.AuthApp.annotation.CurrentUser;
-import com.accolite.pru.health.AuthApp.exception.UserLogoutException;
-import com.accolite.pru.health.AuthApp.model.CustomUserDetails;
-import com.accolite.pru.health.AuthApp.model.Role;
-import com.accolite.pru.health.AuthApp.model.User;
-import com.accolite.pru.health.AuthApp.model.UserDevice;
-import com.accolite.pru.health.AuthApp.model.payload.LogOutRequest;
-import com.accolite.pru.health.AuthApp.model.payload.RegistrationRequest;
-import com.accolite.pru.health.AuthApp.repository.UserRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.bithumbhomework.AuthApp.annotation.CurrentUser;
+import com.bithumbhomework.AuthApp.exception.UserLogoutException;
+import com.bithumbhomework.AuthApp.model.CustomUserDetails;
+import com.bithumbhomework.AuthApp.model.Role;
+import com.bithumbhomework.AuthApp.model.User;
+import com.bithumbhomework.AuthApp.model.UserDevice;
+import com.bithumbhomework.AuthApp.model.payload.LogOutRequest;
+import com.bithumbhomework.AuthApp.model.payload.RegistrationRequest;
+import com.bithumbhomework.AuthApp.repository.UserRepository;
 
 import java.util.HashSet;
 import java.util.Optional;

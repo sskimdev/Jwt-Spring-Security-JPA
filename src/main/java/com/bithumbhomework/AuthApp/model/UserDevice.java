@@ -11,10 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.model;
-
-import com.accolite.pru.health.AuthApp.model.audit.DateAudit;
-import com.accolite.pru.health.AuthApp.model.token.RefreshToken;
+package com.bithumbhomework.AuthApp.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,6 +24,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+
+import com.bithumbhomework.AuthApp.model.audit.DateAudit;
+import com.bithumbhomework.AuthApp.model.token.RefreshToken;
 
 @Entity(name = "USER_DEVICE")
 public class UserDevice extends DateAudit {

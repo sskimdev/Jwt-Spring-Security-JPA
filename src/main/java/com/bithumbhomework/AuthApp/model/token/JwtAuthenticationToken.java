@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.model.token;
+package com.bithumbhomework.AuthApp.model.token;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 

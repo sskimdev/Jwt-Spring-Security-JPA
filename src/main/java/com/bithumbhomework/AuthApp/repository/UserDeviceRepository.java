@@ -11,11 +11,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.repository;
+package com.bithumbhomework.AuthApp.repository;
 
-import com.accolite.pru.health.AuthApp.model.UserDevice;
-import com.accolite.pru.health.AuthApp.model.token.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.bithumbhomework.AuthApp.model.UserDevice;
+import com.bithumbhomework.AuthApp.model.token.RefreshToken;
 
 import java.util.Optional;
 

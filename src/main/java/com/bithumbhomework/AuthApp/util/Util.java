@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.util;
+package com.bithumbhomework.AuthApp.util;
 
 import java.util.UUID;
 

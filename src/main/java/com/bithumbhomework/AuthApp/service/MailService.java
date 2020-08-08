@@ -11,9 +11,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.service;
+package com.bithumbhomework.AuthApp.service;
 
-import com.accolite.pru.health.AuthApp.model.Mail;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -23,6 +22,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+
+import com.bithumbhomework.AuthApp.model.Mail;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;

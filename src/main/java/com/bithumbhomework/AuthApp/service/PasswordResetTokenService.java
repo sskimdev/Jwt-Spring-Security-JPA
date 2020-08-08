@@ -11,15 +11,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.service;
+package com.bithumbhomework.AuthApp.service;
 
-import com.accolite.pru.health.AuthApp.exception.InvalidTokenRequestException;
-import com.accolite.pru.health.AuthApp.model.PasswordResetToken;
-import com.accolite.pru.health.AuthApp.repository.PasswordResetTokenRepository;
-import com.accolite.pru.health.AuthApp.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import com.bithumbhomework.AuthApp.exception.InvalidTokenRequestException;
+import com.bithumbhomework.AuthApp.model.PasswordResetToken;
+import com.bithumbhomework.AuthApp.repository.PasswordResetTokenRepository;
+import com.bithumbhomework.AuthApp.util.Util;
 
 import java.time.Instant;
 import java.util.Optional;

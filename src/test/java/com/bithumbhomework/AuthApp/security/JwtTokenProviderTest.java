@@ -11,15 +11,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.security;
+package com.bithumbhomework.AuthApp.security;
 
-import com.accolite.pru.health.AuthApp.model.CustomUserDetails;
-import com.accolite.pru.health.AuthApp.model.User;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.MockitoAnnotations;
+
+import com.bithumbhomework.AuthApp.model.CustomUserDetails;
+import com.bithumbhomework.AuthApp.model.User;
+import com.bithumbhomework.AuthApp.security.JwtTokenProvider;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

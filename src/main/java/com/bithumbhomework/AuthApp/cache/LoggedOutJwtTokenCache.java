@@ -11,15 +11,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.cache;
+package com.bithumbhomework.AuthApp.cache;
 
-import com.accolite.pru.health.AuthApp.event.OnUserLogoutSuccessEvent;
-import com.accolite.pru.health.AuthApp.security.JwtTokenProvider;
 import net.jodah.expiringmap.ExpiringMap;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.bithumbhomework.AuthApp.event.OnUserLogoutSuccessEvent;
+import com.bithumbhomework.AuthApp.security.JwtTokenProvider;
 
 import java.time.Instant;
 import java.util.Date;

@@ -11,13 +11,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.model.payload;
+package com.bithumbhomework.AuthApp.model.payload;
 
-import com.accolite.pru.health.AuthApp.validation.annotation.NullOrNotBlank;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
+
+import com.bithumbhomework.AuthApp.validation.annotation.NullOrNotBlank;
 
 @ApiModel(value = "Registration Request", description = "The registration request payload")
 public class RegistrationRequest {

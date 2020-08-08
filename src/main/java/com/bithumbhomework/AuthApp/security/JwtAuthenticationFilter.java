@@ -11,9 +11,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.security;
+package com.bithumbhomework.AuthApp.security;
 
-import com.accolite.pru.health.AuthApp.service.CustomUserDetailsService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +22,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.bithumbhomework.AuthApp.service.CustomUserDetailsService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

@@ -11,12 +11,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.service;
+package com.bithumbhomework.AuthApp.service;
 
-import com.accolite.pru.health.AuthApp.model.Role;
-import com.accolite.pru.health.AuthApp.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.bithumbhomework.AuthApp.model.Role;
+import com.bithumbhomework.AuthApp.repository.RoleRepository;
 
 import java.util.Collection;
 

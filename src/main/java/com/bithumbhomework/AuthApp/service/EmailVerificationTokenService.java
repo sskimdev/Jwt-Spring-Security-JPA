@@ -11,17 +11,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.service;
+package com.bithumbhomework.AuthApp.service;
 
-import com.accolite.pru.health.AuthApp.exception.InvalidTokenRequestException;
-import com.accolite.pru.health.AuthApp.model.TokenStatus;
-import com.accolite.pru.health.AuthApp.model.User;
-import com.accolite.pru.health.AuthApp.model.token.EmailVerificationToken;
-import com.accolite.pru.health.AuthApp.repository.EmailVerificationTokenRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import com.bithumbhomework.AuthApp.exception.InvalidTokenRequestException;
+import com.bithumbhomework.AuthApp.model.TokenStatus;
+import com.bithumbhomework.AuthApp.model.User;
+import com.bithumbhomework.AuthApp.model.token.EmailVerificationToken;
+import com.bithumbhomework.AuthApp.repository.EmailVerificationTokenRepository;
 
 import java.time.Instant;
 import java.util.Optional;

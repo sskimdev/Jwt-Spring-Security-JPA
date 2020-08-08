@@ -11,13 +11,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.validation.validator;
-
-import com.accolite.pru.health.AuthApp.model.payload.PasswordResetRequest;
-import com.accolite.pru.health.AuthApp.validation.annotation.MatchPassword;
+package com.bithumbhomework.AuthApp.validation.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import com.bithumbhomework.AuthApp.model.payload.PasswordResetRequest;
+import com.bithumbhomework.AuthApp.validation.annotation.MatchPassword;
 
 public class MatchPasswordValidator implements ConstraintValidator<MatchPassword, PasswordResetRequest> {
 

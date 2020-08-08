@@ -11,17 +11,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.security;
+package com.bithumbhomework.AuthApp.security;
 
-import com.accolite.pru.health.AuthApp.cache.LoggedOutJwtTokenCache;
-import com.accolite.pru.health.AuthApp.event.OnUserLogoutSuccessEvent;
-import com.accolite.pru.health.AuthApp.exception.InvalidTokenRequestException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import com.bithumbhomework.AuthApp.cache.LoggedOutJwtTokenCache;
+import com.bithumbhomework.AuthApp.event.OnUserLogoutSuccessEvent;
+import com.bithumbhomework.AuthApp.exception.InvalidTokenRequestException;
+import com.bithumbhomework.AuthApp.security.JwtTokenProvider;
+import com.bithumbhomework.AuthApp.security.JwtTokenValidator;
 
 import java.util.concurrent.TimeUnit;
 

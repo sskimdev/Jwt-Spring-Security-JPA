@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.config;
+package com.bithumbhomework.AuthApp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +31,7 @@ public class SwaggerConfig {
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.accolite.pru.health.AuthApp"))
+                .apis(RequestHandlerSelectors.basePackage("com.bithumbhomework.AuthApp"))
                 .paths(PathSelectors.regex("/api.*"))
                 .build()
                 .apiInfo(metaInfo());

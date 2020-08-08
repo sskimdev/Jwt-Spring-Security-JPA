@@ -11,11 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.model.token;
-
-import com.accolite.pru.health.AuthApp.model.TokenStatus;
-import com.accolite.pru.health.AuthApp.model.User;
-import com.accolite.pru.health.AuthApp.model.audit.DateAudit;
+package com.bithumbhomework.AuthApp.model.token;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +24,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+
+import com.bithumbhomework.AuthApp.model.TokenStatus;
+import com.bithumbhomework.AuthApp.model.User;
+import com.bithumbhomework.AuthApp.model.audit.DateAudit;
+
 import java.time.Instant;
 
 @Entity(name = "EMAIL_VERIFICATION_TOKEN")

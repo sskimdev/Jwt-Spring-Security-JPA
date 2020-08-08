@@ -11,10 +11,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.event;
+package com.bithumbhomework.AuthApp.event;
 
-import com.accolite.pru.health.AuthApp.model.User;
 import org.springframework.context.ApplicationEvent;
+
+import com.bithumbhomework.AuthApp.model.User;
 
 public class OnUserAccountChangeEvent extends ApplicationEvent {
 

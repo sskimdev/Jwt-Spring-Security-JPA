@@ -11,15 +11,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.event.listener;
+package com.bithumbhomework.AuthApp.event.listener;
 
-import com.accolite.pru.health.AuthApp.cache.LoggedOutJwtTokenCache;
-import com.accolite.pru.health.AuthApp.event.OnUserLogoutSuccessEvent;
-import com.accolite.pru.health.AuthApp.model.payload.DeviceInfo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+
+import com.bithumbhomework.AuthApp.cache.LoggedOutJwtTokenCache;
+import com.bithumbhomework.AuthApp.event.OnUserLogoutSuccessEvent;
+import com.bithumbhomework.AuthApp.model.payload.DeviceInfo;
 
 @Component
 public class OnUserLogoutSuccessEventListener implements ApplicationListener<OnUserLogoutSuccessEvent> {

@@ -11,12 +11,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.validation.annotation;
-
-import com.accolite.pru.health.AuthApp.validation.validator.MatchPasswordValidator;
+package com.bithumbhomework.AuthApp.validation.annotation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
+
+import com.bithumbhomework.AuthApp.validation.validator.MatchPasswordValidator;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

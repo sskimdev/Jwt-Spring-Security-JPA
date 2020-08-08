@@ -11,11 +11,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.accolite.pru.health.AuthApp.config;
+package com.bithumbhomework.AuthApp.config;
 
-import com.accolite.pru.health.AuthApp.security.JwtAuthenticationEntryPoint;
-import com.accolite.pru.health.AuthApp.security.JwtAuthenticationFilter;
-import com.accolite.pru.health.AuthApp.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,10 +30,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.bithumbhomework.AuthApp.security.JwtAuthenticationEntryPoint;
+import com.bithumbhomework.AuthApp.security.JwtAuthenticationFilter;
+import com.bithumbhomework.AuthApp.service.CustomUserDetailsService;
+
 @Profile("!dev")
 @Configuration
 @EnableWebSecurity(debug = true)
-@EnableJpaRepositories(basePackages = "com.accolite.pru.health.AuthApp.repository")
+@EnableJpaRepositories(basePackages = "com.bithumbhomework.AuthApp.repository")
 @EnableGlobalMethodSecurity(
         securedEnabled = true,
         jsr250Enabled = true,
