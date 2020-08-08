@@ -43,9 +43,9 @@ import com.bithumbhomework.member.security.JwtTokenProvider;
 import java.util.Optional;
 
 @Service
-public class AuthService {
+public class MemberAuthService {
 
-    private static final Logger logger = Logger.getLogger(AuthService.class);
+    private static final Logger logger = Logger.getLogger(MemberAuthService.class);
     private final UserService userService;
     private final JwtTokenProvider tokenProvider;
     private final RefreshTokenService refreshTokenService;
@@ -56,7 +56,7 @@ public class AuthService {
     private final PasswordResetTokenService passwordResetTokenService;
 
     @Autowired
-    public AuthService(UserService userService, JwtTokenProvider tokenProvider, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, EmailVerificationTokenService emailVerificationTokenService, UserDeviceService userDeviceService, PasswordResetTokenService passwordResetTokenService) {
+    public MemberAuthService(UserService userService, JwtTokenProvider tokenProvider, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, EmailVerificationTokenService emailVerificationTokenService, UserDeviceService userDeviceService, PasswordResetTokenService passwordResetTokenService) {
         this.userService = userService;
         this.tokenProvider = tokenProvider;
         this.refreshTokenService = refreshTokenService;
@@ -92,15 +92,15 @@ public class AuthService {
     public Boolean emailAlreadyExists(String email) {
         return userService.existsByEmail(email);
     }
-
-    /**
-     * Checks if the given email already exists in the database repository or not
-     *
-     * @return true if the email exists else false
-     */
-    public Boolean usernameAlreadyExists(String username) {
-        return userService.existsByUsername(username);
-    }
+//
+//    /**
+//     * Checks if the given email already exists in the database repository or not
+//     *
+//     * @return true if the email exists else false
+//     */
+//    public Boolean usernameAlreadyExists(String username) {
+//        return userService.existsByUsername(username);
+//    }
 
     /**
      * Authenticate user and log them in given a loginRequest
@@ -110,43 +110,43 @@ public class AuthService {
                 loginRequest.getPassword())));
     }
 
-    /**
-     * Confirms the user verification based on the token expiry and mark the user as active.
-     * If user is already verified, save the unnecessary database calls.
-     */
-    public Optional<User> confirmEmailRegistration(String emailToken) {
-        EmailVerificationToken emailVerificationToken = emailVerificationTokenService.findByToken(emailToken)
-                .orElseThrow(() -> new ResourceNotFoundException("Token", "Email verification", emailToken));
-
-        User registeredUser = emailVerificationToken.getUser();
-        if (registeredUser.getEmailVerified()) {
-            logger.info("User [" + emailToken + "] already registered.");
-            return Optional.of(registeredUser);
-        }
-
-        emailVerificationTokenService.verifyExpiration(emailVerificationToken);
-        emailVerificationToken.setConfirmedStatus();
-        emailVerificationTokenService.save(emailVerificationToken);
-
-        registeredUser.markVerificationConfirmed();
-        userService.save(registeredUser);
-        return Optional.of(registeredUser);
-    }
-
-    /**
-     * Attempt to regenerate a new email verification token given a valid
-     * previous expired token. If the previous token is valid, increase its expiry
-     * else update the token value and add a new expiration.
-     */
-    public Optional<EmailVerificationToken> recreateRegistrationToken(String existingToken) {
-        EmailVerificationToken emailVerificationToken = emailVerificationTokenService.findByToken(existingToken)
-                .orElseThrow(() -> new ResourceNotFoundException("Token", "Existing email verification", existingToken));
-
-        if (emailVerificationToken.getUser().getEmailVerified()) {
-            return Optional.empty();
-        }
-        return Optional.ofNullable(emailVerificationTokenService.updateExistingTokenWithNameAndExpiry(emailVerificationToken));
-    }
+//    /**
+//     * Confirms the user verification based on the token expiry and mark the user as active.
+//     * If user is already verified, save the unnecessary database calls.
+//     */
+//    public Optional<User> confirmEmailRegistration(String emailToken) {
+//        EmailVerificationToken emailVerificationToken = emailVerificationTokenService.findByToken(emailToken)
+//                .orElseThrow(() -> new ResourceNotFoundException("Token", "Email verification", emailToken));
+//
+//        User registeredUser = emailVerificationToken.getUser();
+//        if (registeredUser.getEmailVerified()) {
+//            logger.info("User [" + emailToken + "] already registered.");
+//            return Optional.of(registeredUser);
+//        }
+//
+//        emailVerificationTokenService.verifyExpiration(emailVerificationToken);
+//        emailVerificationToken.setConfirmedStatus();
+//        emailVerificationTokenService.save(emailVerificationToken);
+//
+//        registeredUser.markVerificationConfirmed();
+//        userService.save(registeredUser);
+//        return Optional.of(registeredUser);
+//    }
+//
+//    /**
+//     * Attempt to regenerate a new email verification token given a valid
+//     * previous expired token. If the previous token is valid, increase its expiry
+//     * else update the token value and add a new expiration.
+//     */
+//    public Optional<EmailVerificationToken> recreateRegistrationToken(String existingToken) {
+//        EmailVerificationToken emailVerificationToken = emailVerificationTokenService.findByToken(existingToken)
+//                .orElseThrow(() -> new ResourceNotFoundException("Token", "Existing email verification", existingToken));
+//
+//        if (emailVerificationToken.getUser().getEmailVerified()) {
+//            return Optional.empty();
+//        }
+//        return Optional.ofNullable(emailVerificationTokenService.updateExistingTokenWithNameAndExpiry(emailVerificationToken));
+//    }
 
     /**
      * Validates the password of the current logged in user with the given password

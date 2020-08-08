@@ -54,8 +54,8 @@ public class User extends DateAudit {
             @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID")})
     private Set<Role> roles = new HashSet<>();
 
-    @Column(name = "IS_EMAIL_VERIFIED", nullable = false)
-    private Boolean isEmailVerified;
+//    @Column(name = "IS_EMAIL_VERIFIED", nullable = false)
+//    private Boolean isEmailVerified;
 
     public User() {
         super();
@@ -68,7 +68,7 @@ public class User extends DateAudit {
         email = user.getEmail();
         active = user.getActive();
         roles = user.getRoles();
-        isEmailVerified = user.getIsEmailVerified();
+//        isEmailVerified = user.getIsEmailVerified();
     }
     
     
@@ -156,23 +156,23 @@ public class User extends DateAudit {
 		this.roles = roles;
 	}
 
-	/**
-	 * @return the isEmailVerified
-	 */
-	public Boolean getIsEmailVerified() {
-		return isEmailVerified;
-	}
-
-	/**
-	 * @param isEmailVerified the isEmailVerified to set
-	 */
-	public void setIsEmailVerified(Boolean isEmailVerified) {
-		this.isEmailVerified = isEmailVerified;
-	}
+//	/**
+//	 * @return the isEmailVerified
+//	 */
+//	public Boolean getIsEmailVerified() {
+//		return isEmailVerified;
+//	}
+//
+//	/**
+//	 * @param isEmailVerified the isEmailVerified to set
+//	 */
+//	public void setIsEmailVerified(Boolean isEmailVerified) {
+//		this.isEmailVerified = isEmailVerified;
+//	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", username=" + username + ", password=" + password + ", active="
-				+ active + ", roles=" + roles + ", isEmailVerified=" + isEmailVerified + "]";
+				+ active + ", roles=" + roles + "]";
 	}
 }

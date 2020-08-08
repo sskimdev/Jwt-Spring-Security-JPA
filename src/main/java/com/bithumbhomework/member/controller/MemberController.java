@@ -54,7 +54,7 @@ import com.bithumbhomework.member.exception.TokenRefreshException;
 import com.bithumbhomework.member.exception.UserLoginException;
 import com.bithumbhomework.member.exception.UserRegistrationException;
 import com.bithumbhomework.member.security.JwtTokenProvider;
-import com.bithumbhomework.member.service.AuthService;
+import com.bithumbhomework.member.service.MemberAuthService;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -66,12 +66,12 @@ import java.util.Optional;
 public class MemberController {
 
     private static final Logger logger = Logger.getLogger(MemberController.class);
-    private final AuthService authService;
+    private final MemberAuthService authService;
     private final JwtTokenProvider tokenProvider;
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public MemberController(AuthService authService, JwtTokenProvider tokenProvider, ApplicationEventPublisher applicationEventPublisher) {
+    public MemberController(MemberAuthService authService, JwtTokenProvider tokenProvider, ApplicationEventPublisher applicationEventPublisher) {
         this.authService = authService;
         this.tokenProvider = tokenProvider;
         this.applicationEventPublisher = applicationEventPublisher;

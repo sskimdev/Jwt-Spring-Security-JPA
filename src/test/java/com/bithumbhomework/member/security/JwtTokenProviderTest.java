@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bithumbhomework.AuthApp.security;
+package com.bithumbhomework.member.security;
 
 import org.junit.Before;
 import org.junit.Rule;
