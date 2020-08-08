@@ -16,7 +16,7 @@ package com.bithumbhomework.member.event;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.bithumbhomework.member.model.PasswordResetToken;
+import com.bithumbhomework.member.entity.PasswordResetToken;
 
 public class OnGenerateResetLinkEvent extends ApplicationEvent {
 

@@ -15,7 +15,7 @@ package com.bithumbhomework.member.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bithumbhomework.member.model.Role;
+import com.bithumbhomework.member.entity.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
 

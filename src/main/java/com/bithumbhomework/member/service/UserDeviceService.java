@@ -16,10 +16,10 @@ package com.bithumbhomework.member.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bithumbhomework.member.entity.UserDevice;
+import com.bithumbhomework.member.entity.payload.DeviceInfo;
+import com.bithumbhomework.member.entity.token.RefreshToken;
 import com.bithumbhomework.member.exception.TokenRefreshException;
-import com.bithumbhomework.member.model.UserDevice;
-import com.bithumbhomework.member.model.payload.DeviceInfo;
-import com.bithumbhomework.member.model.token.RefreshToken;
 import com.bithumbhomework.member.repository.UserDeviceRepository;
 
 import java.util.Optional;

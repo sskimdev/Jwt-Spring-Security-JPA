@@ -16,7 +16,7 @@ package com.bithumbhomework.member.event;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.bithumbhomework.member.model.User;
+import com.bithumbhomework.member.entity.User;
 
 public class OnUserRegistrationCompleteEvent extends ApplicationEvent {
 

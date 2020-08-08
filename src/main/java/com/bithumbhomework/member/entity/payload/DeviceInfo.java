@@ -11,14 +11,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bithumbhomework.member.model.payload;
+package com.bithumbhomework.member.entity.payload;
 
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.bithumbhomework.member.model.DeviceType;
+import com.bithumbhomework.member.entity.DeviceType;
 import com.bithumbhomework.member.validation.annotation.NullOrNotBlank;
 
 public class DeviceInfo {

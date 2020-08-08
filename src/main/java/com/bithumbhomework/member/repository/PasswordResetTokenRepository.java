@@ -16,7 +16,7 @@ package com.bithumbhomework.member.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.bithumbhomework.member.model.PasswordResetToken;
+import com.bithumbhomework.member.entity.PasswordResetToken;
 
 import java.util.Optional;
 

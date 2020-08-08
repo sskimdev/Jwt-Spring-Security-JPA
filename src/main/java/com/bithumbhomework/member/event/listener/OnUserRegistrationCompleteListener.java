@@ -20,9 +20,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import com.bithumbhomework.member.entity.User;
 import com.bithumbhomework.member.event.OnUserRegistrationCompleteEvent;
 import com.bithumbhomework.member.exception.MailSendException;
-import com.bithumbhomework.member.model.User;
 import com.bithumbhomework.member.service.EmailVerificationTokenService;
 import com.bithumbhomework.member.service.MailService;
 

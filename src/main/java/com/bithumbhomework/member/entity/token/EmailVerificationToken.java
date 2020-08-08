@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bithumbhomework.member.model.token;
+package com.bithumbhomework.member.entity.token;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,9 +25,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
-import com.bithumbhomework.member.model.TokenStatus;
-import com.bithumbhomework.member.model.User;
-import com.bithumbhomework.member.model.audit.DateAudit;
+import com.bithumbhomework.member.entity.TokenStatus;
+import com.bithumbhomework.member.entity.User;
+import com.bithumbhomework.member.entity.audit.DateAudit;
 
 import java.time.Instant;
 

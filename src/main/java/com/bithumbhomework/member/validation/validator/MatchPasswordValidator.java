@@ -16,7 +16,7 @@ package com.bithumbhomework.member.validation.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.bithumbhomework.member.model.payload.PasswordResetRequest;
+import com.bithumbhomework.member.entity.payload.PasswordResetRequest;
 import com.bithumbhomework.member.validation.annotation.MatchPassword;
 
 public class MatchPasswordValidator implements ConstraintValidator<MatchPassword, PasswordResetRequest> {

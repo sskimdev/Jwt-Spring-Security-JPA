@@ -15,7 +15,7 @@ package com.bithumbhomework.member.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bithumbhomework.member.model.User;
+import com.bithumbhomework.member.entity.User;
 
 import java.util.Optional;
 

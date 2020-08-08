@@ -19,8 +19,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.MockitoAnnotations;
 
-import com.bithumbhomework.member.model.CustomUserDetails;
-import com.bithumbhomework.member.model.User;
+import com.bithumbhomework.member.entity.CustomUserDetails;
+import com.bithumbhomework.member.entity.User;
 import com.bithumbhomework.member.security.JwtTokenProvider;
 
 import static org.junit.Assert.assertEquals;

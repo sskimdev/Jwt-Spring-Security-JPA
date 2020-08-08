@@ -15,7 +15,7 @@ package com.bithumbhomework.member.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bithumbhomework.member.model.token.RefreshToken;
+import com.bithumbhomework.member.entity.token.RefreshToken;
 
 import java.util.Optional;
 

@@ -15,7 +15,7 @@ package com.bithumbhomework.member.event;
 
 import org.springframework.context.ApplicationEvent;
 
-import com.bithumbhomework.member.model.payload.LogOutRequest;
+import com.bithumbhomework.member.entity.payload.LogOutRequest;
 
 import java.time.Instant;
 import java.util.Date;

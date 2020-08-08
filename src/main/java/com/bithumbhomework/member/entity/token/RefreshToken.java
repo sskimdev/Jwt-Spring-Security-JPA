@@ -11,12 +11,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bithumbhomework.member.model.token;
+package com.bithumbhomework.member.entity.token;
 
 import org.hibernate.annotations.NaturalId;
 
-import com.bithumbhomework.member.model.UserDevice;
-import com.bithumbhomework.member.model.audit.DateAudit;
+import com.bithumbhomework.member.entity.UserDevice;
+import com.bithumbhomework.member.entity.audit.DateAudit;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

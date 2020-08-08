@@ -20,10 +20,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import com.bithumbhomework.member.entity.PasswordResetToken;
+import com.bithumbhomework.member.entity.User;
 import com.bithumbhomework.member.event.OnGenerateResetLinkEvent;
 import com.bithumbhomework.member.exception.MailSendException;
-import com.bithumbhomework.member.model.PasswordResetToken;
-import com.bithumbhomework.member.model.User;
 import com.bithumbhomework.member.service.MailService;
 
 import javax.mail.MessagingException;

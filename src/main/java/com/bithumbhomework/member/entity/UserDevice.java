@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bithumbhomework.member.model;
+package com.bithumbhomework.member.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,8 +25,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
-import com.bithumbhomework.member.model.audit.DateAudit;
-import com.bithumbhomework.member.model.token.RefreshToken;
+import com.bithumbhomework.member.entity.audit.DateAudit;
+import com.bithumbhomework.member.entity.token.RefreshToken;
 
 @Entity(name = "USER_DEVICE")
 public class UserDevice extends DateAudit {

@@ -16,8 +16,8 @@ package com.bithumbhomework.member.event;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.bithumbhomework.member.model.User;
-import com.bithumbhomework.member.model.token.EmailVerificationToken;
+import com.bithumbhomework.member.entity.User;
+import com.bithumbhomework.member.entity.token.EmailVerificationToken;
 
 public class OnRegenerateEmailVerificationEvent extends ApplicationEvent {
 

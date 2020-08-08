@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
+import com.bithumbhomework.member.entity.payload.ApiResponse;
 import com.bithumbhomework.member.exception.AppException;
 import com.bithumbhomework.member.exception.BadRequestException;
 import com.bithumbhomework.member.exception.InvalidTokenRequestException;
@@ -43,7 +44,6 @@ import com.bithumbhomework.member.exception.UpdatePasswordException;
 import com.bithumbhomework.member.exception.UserLoginException;
 import com.bithumbhomework.member.exception.UserLogoutException;
 import com.bithumbhomework.member.exception.UserRegistrationException;
-import com.bithumbhomework.member.model.payload.ApiResponse;
 
 import java.util.List;
 import java.util.Locale;

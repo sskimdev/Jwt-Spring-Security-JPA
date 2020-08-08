@@ -19,8 +19,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import com.bithumbhomework.member.cache.LoggedOutJwtTokenCache;
+import com.bithumbhomework.member.entity.payload.DeviceInfo;
 import com.bithumbhomework.member.event.OnUserLogoutSuccessEvent;
-import com.bithumbhomework.member.model.payload.DeviceInfo;
 
 @Component
 public class OnUserLogoutSuccessEventListener implements ApplicationListener<OnUserLogoutSuccessEvent> {

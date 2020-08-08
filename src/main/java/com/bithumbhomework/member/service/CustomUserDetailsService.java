@@ -20,8 +20,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.bithumbhomework.member.model.CustomUserDetails;
-import com.bithumbhomework.member.model.User;
+import com.bithumbhomework.member.entity.CustomUserDetails;
+import com.bithumbhomework.member.entity.User;
 import com.bithumbhomework.member.repository.UserRepository;
 
 import java.util.Optional;

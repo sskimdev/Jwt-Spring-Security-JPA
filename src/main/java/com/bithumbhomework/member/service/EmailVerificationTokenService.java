@@ -18,10 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.bithumbhomework.member.entity.TokenStatus;
+import com.bithumbhomework.member.entity.User;
+import com.bithumbhomework.member.entity.token.EmailVerificationToken;
 import com.bithumbhomework.member.exception.InvalidTokenRequestException;
-import com.bithumbhomework.member.model.TokenStatus;
-import com.bithumbhomework.member.model.User;
-import com.bithumbhomework.member.model.token.EmailVerificationToken;
 import com.bithumbhomework.member.repository.EmailVerificationTokenRepository;
 
 import java.time.Instant;

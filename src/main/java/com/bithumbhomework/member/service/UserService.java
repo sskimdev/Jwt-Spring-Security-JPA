@@ -19,13 +19,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bithumbhomework.member.annotation.CurrentUser;
+import com.bithumbhomework.member.entity.CustomUserDetails;
+import com.bithumbhomework.member.entity.Role;
+import com.bithumbhomework.member.entity.User;
+import com.bithumbhomework.member.entity.UserDevice;
+import com.bithumbhomework.member.entity.payload.LogOutRequest;
+import com.bithumbhomework.member.entity.payload.RegistrationRequest;
 import com.bithumbhomework.member.exception.UserLogoutException;
-import com.bithumbhomework.member.model.CustomUserDetails;
-import com.bithumbhomework.member.model.Role;
-import com.bithumbhomework.member.model.User;
-import com.bithumbhomework.member.model.UserDevice;
-import com.bithumbhomework.member.model.payload.LogOutRequest;
-import com.bithumbhomework.member.model.payload.RegistrationRequest;
 import com.bithumbhomework.member.repository.UserRepository;
 
 import java.util.HashSet;

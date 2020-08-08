@@ -23,7 +23,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-import com.bithumbhomework.member.model.Mail;
+import com.bithumbhomework.member.entity.Mail;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;

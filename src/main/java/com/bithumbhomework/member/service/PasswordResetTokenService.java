@@ -17,8 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.bithumbhomework.member.entity.PasswordResetToken;
 import com.bithumbhomework.member.exception.InvalidTokenRequestException;
-import com.bithumbhomework.member.model.PasswordResetToken;
 import com.bithumbhomework.member.repository.PasswordResetTokenRepository;
 import com.bithumbhomework.member.util.Util;
 

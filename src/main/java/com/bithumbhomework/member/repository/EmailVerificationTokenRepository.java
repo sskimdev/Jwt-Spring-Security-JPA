@@ -15,7 +15,7 @@ package com.bithumbhomework.member.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bithumbhomework.member.model.token.EmailVerificationToken;
+import com.bithumbhomework.member.entity.token.EmailVerificationToken;
 
 import java.util.Optional;
 

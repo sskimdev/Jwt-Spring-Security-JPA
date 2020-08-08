@@ -1,21 +1,9 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package com.bithumbhomework.member.model;
+
+package com.bithumbhomework.member.entity;
 
 import org.hibernate.annotations.NaturalId;
 
-import com.bithumbhomework.member.model.audit.DateAudit;
+import com.bithumbhomework.member.entity.audit.DateAudit;
 import com.bithumbhomework.member.validation.annotation.NullOrNotBlank;
 
 import javax.persistence.CascadeType;
@@ -56,13 +44,6 @@ public class User extends DateAudit {
     @NotNull(message = "Password cannot be null")
     private String password;
 
-    @Column(name = "FIRST_NAME")
-    @NullOrNotBlank(message = "First name can not be blank")
-    private String firstName;
-
-    @Column(name = "LAST_NAME")
-    @NullOrNotBlank(message = "Last name can not be blank")
-    private String lastName;
 
     @Column(name = "IS_ACTIVE", nullable = false)
     private Boolean active;
@@ -84,108 +65,114 @@ public class User extends DateAudit {
         id = user.getId();
         username = user.getUsername();
         password = user.getPassword();
-        firstName = user.getFirstName();
-        lastName = user.getLastName();
         email = user.getEmail();
         active = user.getActive();
         roles = user.getRoles();
-        isEmailVerified = user.getEmailVerified();
+        isEmailVerified = user.getIsEmailVerified();
     }
+    
+    
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    public void addRole(Role role) {
-        roles.add(role);
-        role.getUserList().add(this);
-    }
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void addRoles(Set<Role> roles) {
-        roles.forEach(this::addRole);
-    }
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
 
-    public void removeRole(Role role) {
-        roles.remove(role);
-        role.getUserList().remove(this);
-    }
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void markVerificationConfirmed() {
-        setEmailVerified(true);
-    }
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	/**
+	 * @return the active
+	 */
+	public Boolean getActive() {
+		return active;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	/**
+	 * @param active the active to set
+	 */
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	/**
+	 * @return the roles
+	 */
+	public Set<Role> getRoles() {
+		return roles;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	/**
+	 * @return the isEmailVerified
+	 */
+	public Boolean getIsEmailVerified() {
+		return isEmailVerified;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	/**
+	 * @param isEmailVerified the isEmailVerified to set
+	 */
+	public void setIsEmailVerified(Boolean isEmailVerified) {
+		this.isEmailVerified = isEmailVerified;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> authorities) {
-        roles = authorities;
-    }
-
-    public Boolean getEmailVerified() {
-        return isEmailVerified;
-    }
-
-    public void setEmailVerified(Boolean emailVerified) {
-        isEmailVerified = emailVerified;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", email='" + email + '\'' + ", username='" + username + '\'' + ", password='"
-                + password + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", active="
-                + active + ", roles=" + roles + ", isEmailVerified=" + isEmailVerified + '}';
-    }
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", email=" + email + ", username=" + username + ", password=" + password + ", active="
+				+ active + ", roles=" + roles + ", isEmailVerified=" + isEmailVerified + "]";
+	}
 }

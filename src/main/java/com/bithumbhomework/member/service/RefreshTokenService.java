@@ -17,8 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.bithumbhomework.member.entity.token.RefreshToken;
 import com.bithumbhomework.member.exception.TokenRefreshException;
-import com.bithumbhomework.member.model.token.RefreshToken;
 import com.bithumbhomework.member.repository.RefreshTokenRepository;
 import com.bithumbhomework.member.util.Util;
 

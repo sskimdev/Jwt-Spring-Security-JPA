@@ -16,7 +16,7 @@ package com.bithumbhomework.member.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bithumbhomework.member.model.Role;
+import com.bithumbhomework.member.entity.Role;
 import com.bithumbhomework.member.repository.RoleRepository;
 
 import java.util.Collection;

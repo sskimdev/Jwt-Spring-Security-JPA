@@ -19,7 +19,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.bithumbhomework.member.model.CustomUserDetails;
+import com.bithumbhomework.member.entity.CustomUserDetails;
 
 import java.time.Instant;
 import java.util.Date;
