@@ -20,11 +20,11 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.bithumbhomework.AuthApp.cache.LoggedOutJwtTokenCache;
-import com.bithumbhomework.AuthApp.event.OnUserLogoutSuccessEvent;
-import com.bithumbhomework.AuthApp.exception.InvalidTokenRequestException;
-import com.bithumbhomework.AuthApp.security.JwtTokenProvider;
-import com.bithumbhomework.AuthApp.security.JwtTokenValidator;
+import com.bithumbhomework.member.cache.LoggedOutJwtTokenCache;
+import com.bithumbhomework.member.event.OnUserLogoutSuccessEvent;
+import com.bithumbhomework.member.exception.InvalidTokenRequestException;
+import com.bithumbhomework.member.security.JwtTokenProvider;
+import com.bithumbhomework.member.security.JwtTokenValidator;
 
 import java.util.concurrent.TimeUnit;
 

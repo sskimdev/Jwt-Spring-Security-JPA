@@ -18,9 +18,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.bithumbhomework.AuthApp.cache.LoggedOutJwtTokenCache;
-import com.bithumbhomework.AuthApp.event.OnUserLogoutSuccessEvent;
-import com.bithumbhomework.AuthApp.security.JwtTokenProvider;
+import com.bithumbhomework.member.cache.LoggedOutJwtTokenCache;
+import com.bithumbhomework.member.event.OnUserLogoutSuccessEvent;
+import com.bithumbhomework.member.security.JwtTokenProvider;
 
 import java.time.Instant;
 import java.util.Date;
