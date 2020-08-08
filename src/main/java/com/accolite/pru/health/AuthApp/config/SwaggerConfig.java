@@ -39,9 +39,9 @@ public class SwaggerConfig {
 
     private ApiInfo metaInfo() {
         return new ApiInfoBuilder()
-                .description("Backend API For the Auth/User Service")
-                .title("Auth/User API")
-                .version("Unreleased [WIP]")
+                .description("회원 가입, 로그인 및 조회 서비스를 위한 Back-End API")
+                .title("회원 가입, 로그인 및 조회 서비스를 위한 Rest API")
+                .version("Released")
                 .build();
     }
 

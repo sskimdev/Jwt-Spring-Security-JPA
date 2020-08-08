@@ -9,8 +9,7 @@
     <packaging>jar</packaging>
 
     <name>AuthApp</name>
-    <description>Demo project for Spring Boot</description>
-    <url>https://github.com/isopropylcyanide/Jwt-Spring-Security-JPA</url>
+    <description>회원 가입, 로그인 및 조회 서비스를 위한 Back-End API</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -18,36 +17,6 @@
         <version>2.3.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
-    <developers>
-        <developer>
-            <name>Aman Garg</name>
-            <email>amangargcse@outlook.com</email>
-            <timezone>5</timezone>
-            <id>isopropylcyanide</id>
-        </developer>
-    </developers>
-
-    <licenses>
-        <license>
-            <name>Apache 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <scm>
-        <developerConnection>scm:git:git@github.com:isopropylcyanide/Jwt-Spring-Security-JPA.git
-        </developerConnection>
-        <connection>scm:git@github.com:isopropylcyanide/Jwt-Spring-Security-JPA.git</connection>
-        <url>https://github.com/isopropylcyanide/Jwt-Spring-Security-JPA/tree/master</url>
-        <tag>HEAD</tag>
-    </scm>
-
-    <issueManagement>
-        <system>GitHub Issues</system>
-        <url>https://github.com/isopropylcyanide/Jwt-Spring-Security-JPA/issues</url>
-    </issueManagement>
 
     <properties>
         <!--Build-->
