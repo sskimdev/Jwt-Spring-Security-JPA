@@ -155,11 +155,11 @@ public class MemberController {
      * 3. 로그인이 안된 사용자는 HTTP Status Code를 401 (Unauthorized)로 응답합니다.
      */
     @GetMapping("/info")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     @ApiOperation(value = "회원정보 조회")
     public ResponseEntity getUserProfile(@CurrentUser CustomUserDetails currentUser) {
-//        logger.info(currentUser.getEmail() + " has role: " + currentUser.getRoles());
-        return ResponseEntity.ok("Hello. This is about me");
+        logger.info(currentUser.getEmail());
+        return ResponseEntity.ok("Hello. This is about me. " + currentUser.getEmail());
     }
 
 
