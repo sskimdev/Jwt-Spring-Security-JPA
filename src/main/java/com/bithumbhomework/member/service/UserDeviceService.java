@@ -54,7 +54,7 @@ public class UserDeviceService {
     public UserDevice createUserDevice(DeviceInfo deviceInfo) {
         UserDevice userDevice = new UserDevice();
         userDevice.setDeviceId(deviceInfo.getDeviceId());
-        userDevice.setDeviceType(deviceInfo.getDeviceType());
+//        userDevice.setDeviceType(deviceInfo.getDeviceType());
         userDevice.setNotificationToken(deviceInfo.getNotificationToken());
         userDevice.setRefreshActive(true);
         return userDevice;

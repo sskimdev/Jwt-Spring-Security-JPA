@@ -40,10 +40,10 @@ public class UserDevice extends DateAudit {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
-
-    @Column(name = "DEVICE_TYPE")
-    @Enumerated(value = EnumType.STRING)
-    private DeviceType deviceType;
+//
+//    @Column(name = "DEVICE_TYPE")
+//    @Enumerated(value = EnumType.STRING)
+//    private DeviceType deviceType;
 
     @Column(name = "NOTIFICATION_TOKEN")
     private String notificationToken;
@@ -60,11 +60,11 @@ public class UserDevice extends DateAudit {
     public UserDevice() {
     }
 
-    public UserDevice(Long id, User user, DeviceType deviceType, String notificationToken, String deviceId,
+    public UserDevice(Long id, User user, String notificationToken, String deviceId,
                       RefreshToken refreshToken, Boolean isRefreshActive) {
         this.id = id;
         this.user = user;
-        this.deviceType = deviceType;
+//        this.deviceType = deviceType;
         this.notificationToken = notificationToken;
         this.deviceId = deviceId;
         this.refreshToken = refreshToken;
@@ -87,13 +87,13 @@ public class UserDevice extends DateAudit {
         this.user = user;
     }
 
-    public DeviceType getDeviceType() {
-        return deviceType;
-    }
-
-    public void setDeviceType(DeviceType deviceType) {
-        this.deviceType = deviceType;
-    }
+//    public DeviceType getDeviceType() {
+//        return deviceType;
+//    }
+//
+//    public void setDeviceType(DeviceType deviceType) {
+//        this.deviceType = deviceType;
+//    }
 
     public String getNotificationToken() {
         return notificationToken;

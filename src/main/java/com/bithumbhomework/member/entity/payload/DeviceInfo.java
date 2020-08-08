@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.bithumbhomework.member.entity.DeviceType;
+//import com.bithumbhomework.member.entity.DeviceType;
 import com.bithumbhomework.member.validation.annotation.NullOrNotBlank;
 
 public class DeviceInfo {
@@ -27,10 +27,10 @@ public class DeviceInfo {
     @ApiModelProperty(value = "Device Id", required = true, dataType = "string", allowableValues = "Non empty string")
     private String deviceId;
 
-    @NotNull(message = "Device type cannot be null")
-    @ApiModelProperty(value = "Device type Android/iOS", required = true, dataType = "string", allowableValues =
-            "DEVICE_TYPE_ANDROID, DEVICE_TYPE_IOS")
-    private DeviceType deviceType;
+//    @NotNull(message = "Device type cannot be null")
+//    @ApiModelProperty(value = "Device type Android/iOS", required = true, dataType = "string", allowableValues =
+//            "DEVICE_TYPE_ANDROID, DEVICE_TYPE_IOS")
+//    private DeviceType deviceType;
 
     @NullOrNotBlank(message = "Device notification token can be null but not blank")
     @ApiModelProperty(value = "Device notification id", dataType = "string", allowableValues = "Non empty string")
@@ -39,9 +39,9 @@ public class DeviceInfo {
     public DeviceInfo() {
     }
 
-    public DeviceInfo(String deviceId, DeviceType deviceType, String notificationToken) {
+    public DeviceInfo(String deviceId, String notificationToken) {
         this.deviceId = deviceId;
-        this.deviceType = deviceType;
+//        this.deviceType = deviceType;
         this.notificationToken = notificationToken;
     }
 
@@ -53,13 +53,13 @@ public class DeviceInfo {
         this.deviceId = deviceId;
     }
 
-    public DeviceType getDeviceType() {
-        return deviceType;
-    }
-
-    public void setDeviceType(DeviceType deviceType) {
-        this.deviceType = deviceType;
-    }
+//    public DeviceType getDeviceType() {
+//        return deviceType;
+//    }
+//
+//    public void setDeviceType(DeviceType deviceType) {
+//        this.deviceType = deviceType;
+//    }
 
     public String getNotificationToken() {
         return notificationToken;
@@ -73,7 +73,7 @@ public class DeviceInfo {
     public String toString() {
         return "DeviceInfo{" +
                 "deviceId='" + deviceId + '\'' +
-                ", deviceType=" + deviceType +
+//                ", deviceType=" + deviceType +
                 ", notificationToken='" + notificationToken + '\'' +
                 '}';
     }
