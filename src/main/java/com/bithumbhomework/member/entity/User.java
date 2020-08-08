@@ -45,14 +45,14 @@ public class User extends DateAudit {
     private String password;
 
 
-    @Column(name = "IS_ACTIVE", nullable = false)
-    private Boolean active;
+//    @Column(name = "IS_ACTIVE", nullable = false)
+//    private Boolean active;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "USER_AUTHORITY", joinColumns = {
-            @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")}, inverseJoinColumns = {
-            @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID")})
-    private Set<Role> roles = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @JoinTable(name = "USER_AUTHORITY", joinColumns = {
+//            @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")}, inverseJoinColumns = {
+//            @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID")})
+//    private Set<Role> roles = new HashSet<>();
 
 //    @Column(name = "IS_EMAIL_VERIFIED", nullable = false)
 //    private Boolean isEmailVerified;
@@ -66,8 +66,8 @@ public class User extends DateAudit {
         username = user.getUsername();
         password = user.getPassword();
         email = user.getEmail();
-        active = user.getActive();
-        roles = user.getRoles();
+//        active = user.getActive();
+//        roles = user.getRoles();
 //        isEmailVerified = user.getIsEmailVerified();
     }
     
@@ -128,33 +128,33 @@ public class User extends DateAudit {
 		this.password = password;
 	}
 
-	/**
-	 * @return the active
-	 */
-	public Boolean getActive() {
-		return active;
-	}
+//	/**
+//	 * @return the active
+//	 */
+//	public Boolean getActive() {
+//		return active;
+//	}
+//
+//	/**
+//	 * @param active the active to set
+//	 */
+//	public void setActive(Boolean active) {
+//		this.active = active;
+//	}
 
-	/**
-	 * @param active the active to set
-	 */
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
-	/**
-	 * @return the roles
-	 */
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	/**
-	 * @param roles the roles to set
-	 */
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
+//	/**
+//	 * @return the roles
+//	 */
+//	public Set<Role> getRoles() {
+//		return roles;
+//	}
+//
+//	/**
+//	 * @param roles the roles to set
+//	 */
+//	public void setRoles(Set<Role> roles) {
+//		this.roles = roles;
+//	}
 
 //	/**
 //	 * @return the isEmailVerified
@@ -172,7 +172,6 @@ public class User extends DateAudit {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", username=" + username + ", password=" + password + ", active="
-				+ active + ", roles=" + roles + "]";
+		return "User [id=" + id + ", email=" + email + ", username=" + username + ", password=" + password + "]";
 	}
 }

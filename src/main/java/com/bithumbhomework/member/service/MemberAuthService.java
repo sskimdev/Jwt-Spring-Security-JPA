@@ -26,11 +26,11 @@ import com.bithumbhomework.member.entity.PasswordResetToken;
 import com.bithumbhomework.member.entity.User;
 import com.bithumbhomework.member.entity.UserDevice;
 import com.bithumbhomework.member.entity.payload.LoginRequest;
-import com.bithumbhomework.member.entity.payload.PasswordResetLinkRequest;
-import com.bithumbhomework.member.entity.payload.PasswordResetRequest;
-import com.bithumbhomework.member.entity.payload.RegistrationRequest;
+//import com.bithumbhomework.member.entity.payload.PasswordResetLinkRequest;
+//import com.bithumbhomework.member.entity.payload.PasswordResetRequest;
+import com.bithumbhomework.member.entity.payload.JoinRequest;
 import com.bithumbhomework.member.entity.payload.TokenRefreshRequest;
-import com.bithumbhomework.member.entity.payload.UpdatePasswordRequest;
+//import com.bithumbhomework.member.entity.payload.UpdatePasswordRequest;
 import com.bithumbhomework.member.entity.token.EmailVerificationToken;
 import com.bithumbhomework.member.entity.token.RefreshToken;
 import com.bithumbhomework.member.exception.PasswordResetLinkException;
@@ -51,20 +51,20 @@ public class MemberAuthService {
     private final RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final EmailVerificationTokenService emailVerificationTokenService;
+//    private final EmailVerificationTokenService emailVerificationTokenService;
     private final UserDeviceService userDeviceService;
-    private final PasswordResetTokenService passwordResetTokenService;
+//    private final PasswordResetTokenService passwordResetTokenService;
 
     @Autowired
-    public MemberAuthService(UserService userService, JwtTokenProvider tokenProvider, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, EmailVerificationTokenService emailVerificationTokenService, UserDeviceService userDeviceService, PasswordResetTokenService passwordResetTokenService) {
+    public MemberAuthService(UserService userService, JwtTokenProvider tokenProvider, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, UserDeviceService userDeviceService) {
         this.userService = userService;
         this.tokenProvider = tokenProvider;
         this.refreshTokenService = refreshTokenService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
-        this.emailVerificationTokenService = emailVerificationTokenService;
+//        this.emailVerificationTokenService = emailVerificationTokenService;
         this.userDeviceService = userDeviceService;
-        this.passwordResetTokenService = passwordResetTokenService;
+//        this.passwordResetTokenService = passwordResetTokenService;
     }
 
     /**
@@ -72,7 +72,7 @@ public class MemberAuthService {
      *
      * @return A user object if successfully created
      */
-    public Optional<User> registerUser(RegistrationRequest newRegistrationRequest) {
+    public Optional<User> joinUser(JoinRequest newRegistrationRequest) {
         String newRegistrationRequestEmail = newRegistrationRequest.getEmail();
         if (emailAlreadyExists(newRegistrationRequestEmail)) {
             logger.error("Email already exists: " + newRegistrationRequestEmail);
@@ -80,6 +80,7 @@ public class MemberAuthService {
         }
         logger.info("Trying to register new user [" + newRegistrationRequestEmail + "]");
         User newUser = userService.createUser(newRegistrationRequest);
+        logger.info("Trying to register new user [" + newUser + "]");
         User registeredNewUser = userService.save(newUser);
         return Optional.ofNullable(registeredNewUser);
     }
@@ -155,24 +156,23 @@ public class MemberAuthService {
         return passwordEncoder.matches(password, currentUser.getPassword());
     }
 
-    /**
-     * Updates the password of the current logged in user
-     */
-    public Optional<User> updatePassword(CustomUserDetails customUserDetails,
-                                         UpdatePasswordRequest updatePasswordRequest) {
-        String email = customUserDetails.getEmail();
-        User currentUser = userService.findByEmail(email)
-                .orElseThrow(() -> new UpdatePasswordException(email, "No matching user found"));
-
-        if (!currentPasswordMatches(currentUser, updatePasswordRequest.getOldPassword())) {
-            logger.info("Current password is invalid for [" + currentUser.getPassword() + "]");
-            throw new UpdatePasswordException(currentUser.getEmail(), "Invalid current password");
-        }
-        String newPassword = passwordEncoder.encode(updatePasswordRequest.getNewPassword());
-        currentUser.setPassword(newPassword);
-        userService.save(currentUser);
-        return Optional.of(currentUser);
-    }
+//    /**
+//     * Updates the password of the current logged in user
+//     */
+//    public Optional<User> updatePassword(CustomUserDetails customUserDetails) {
+//        String email = customUserDetails.getEmail();
+//        User currentUser = userService.findByEmail(email)
+//                .orElseThrow(() -> new UpdatePasswordException(email, "No matching user found"));
+//
+//        if (!currentPasswordMatches(currentUser, updatePasswordRequest.getOldPassword())) {
+//            logger.info("Current password is invalid for [" + currentUser.getPassword() + "]");
+//            throw new UpdatePasswordException(currentUser.getEmail(), "Invalid current password");
+//        }
+//        String newPassword = passwordEncoder.encode(updatePasswordRequest.getNewPassword());
+//        currentUser.setPassword(newPassword);
+//        userService.save(currentUser);
+//        return Optional.of(currentUser);
+//    }
 
     /**
      * Generates a JWT token for the validated client
@@ -232,38 +232,38 @@ public class MemberAuthService {
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "Missing refresh token in database.Please login again"));
     }
 
-    /**
-     * Generates a password reset token from the given reset request
-     */
-    public Optional<PasswordResetToken> generatePasswordResetToken(PasswordResetLinkRequest passwordResetLinkRequest) {
-        String email = passwordResetLinkRequest.getEmail();
-        return userService.findByEmail(email)
-                .map(user -> {
-                    PasswordResetToken passwordResetToken = passwordResetTokenService.createToken();
-                    passwordResetToken.setUser(user);
-                    passwordResetTokenService.save(passwordResetToken);
-                    return Optional.of(passwordResetToken);
-                })
-                .orElseThrow(() -> new PasswordResetLinkException(email, "No matching user found for the given request"));
-    }
-
-    /**
-     * Reset a password given a reset request and return the updated user
-     */
-    public Optional<User> resetPassword(PasswordResetRequest passwordResetRequest) {
-        String token = passwordResetRequest.getToken();
-        PasswordResetToken passwordResetToken = passwordResetTokenService.findByToken(token)
-                .orElseThrow(() -> new ResourceNotFoundException("Password Reset Token", "Token Id", token));
-
-        passwordResetTokenService.verifyExpiration(passwordResetToken);
-        final String encodedPassword = passwordEncoder.encode(passwordResetRequest.getPassword());
-
-        return Optional.of(passwordResetToken)
-                .map(PasswordResetToken::getUser)
-                .map(user -> {
-                    user.setPassword(encodedPassword);
-                    userService.save(user);
-                    return user;
-                });
-    }
+//    /**
+//     * Generates a password reset token from the given reset request
+//     */
+//    public Optional<PasswordResetToken> generatePasswordResetToken(PasswordResetLinkRequest passwordResetLinkRequest) {
+//        String email = passwordResetLinkRequest.getEmail();
+//        return userService.findByEmail(email)
+//                .map(user -> {
+//                    PasswordResetToken passwordResetToken = passwordResetTokenService.createToken();
+//                    passwordResetToken.setUser(user);
+//                    passwordResetTokenService.save(passwordResetToken);
+//                    return Optional.of(passwordResetToken);
+//                })
+//                .orElseThrow(() -> new PasswordResetLinkException(email, "No matching user found for the given request"));
+//    }
+//
+//    /**
+//     * Reset a password given a reset request and return the updated user
+//     */
+//    public Optional<User> resetPassword(PasswordResetRequest passwordResetRequest) {
+//        String token = passwordResetRequest.getToken();
+//        PasswordResetToken passwordResetToken = passwordResetTokenService.findByToken(token)
+//                .orElseThrow(() -> new ResourceNotFoundException("Password Reset Token", "Token Id", token));
+//
+//        passwordResetTokenService.verifyExpiration(passwordResetToken);
+//        final String encodedPassword = passwordEncoder.encode(passwordResetRequest.getPassword());
+//
+//        return Optional.of(passwordResetToken)
+//                .map(PasswordResetToken::getUser)
+//                .map(user -> {
+//                    user.setPassword(encodedPassword);
+//                    userService.save(user);
+//                    return user;
+//                });
+//    }
 }

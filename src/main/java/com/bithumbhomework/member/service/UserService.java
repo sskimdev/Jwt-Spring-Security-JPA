@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.bithumbhomework.member.annotation.CurrentUser;
 import com.bithumbhomework.member.entity.CustomUserDetails;
-import com.bithumbhomework.member.entity.Role;
+//import com.bithumbhomework.member.entity.Role;
 import com.bithumbhomework.member.entity.User;
 import com.bithumbhomework.member.entity.UserDevice;
-import com.bithumbhomework.member.entity.payload.LogOutRequest;
-import com.bithumbhomework.member.entity.payload.RegistrationRequest;
+//import com.bithumbhomework.member.entity.payload.LogOutRequest;
+import com.bithumbhomework.member.entity.payload.JoinRequest;
 import com.bithumbhomework.member.exception.UserLogoutException;
 import com.bithumbhomework.member.repository.UserRepository;
 
@@ -84,14 +84,14 @@ public class UserService {
     /**
      * Creates a new user from the registration request
      */
-    public User createUser(RegistrationRequest registerRequest) {
+    public User createUser(JoinRequest registerRequest) {
         User newUser = new User();
 //        Boolean isNewUserAsAdmin = registerRequest.getRegisterAsAdmin();
         newUser.setEmail(registerRequest.getEmail());
         newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        newUser.setUsername(registerRequest.getEmail());
+        newUser.setUsername(registerRequest.getUsername());
 //        newUser.addRoles(getRolesForNewUser(isNewUserAsAdmin));
-        newUser.setActive(true);
+//        newUser.setActive(true);
 //        newUser.setEmailVerified(true);
         return newUser;
     }

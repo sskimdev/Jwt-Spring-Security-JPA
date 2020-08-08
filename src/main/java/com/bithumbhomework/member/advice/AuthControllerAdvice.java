@@ -43,7 +43,7 @@ import com.bithumbhomework.member.exception.TokenRefreshException;
 import com.bithumbhomework.member.exception.UpdatePasswordException;
 import com.bithumbhomework.member.exception.UserLoginException;
 import com.bithumbhomework.member.exception.UserLogoutException;
-import com.bithumbhomework.member.exception.UserRegistrationException;
+import com.bithumbhomework.member.exception.UserJoinException;
 
 import java.util.List;
 import java.util.Locale;
@@ -153,10 +153,10 @@ public class AuthControllerAdvice {
         return new ApiResponse(false, ex.getMessage(), ex.getClass().getName(), resolvePathFromWebRequest(request));
     }
 
-    @ExceptionHandler(value = UserRegistrationException.class)
+    @ExceptionHandler(value = UserJoinException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse handleUserRegistrationException(UserRegistrationException ex, WebRequest request) {
+    public ApiResponse handleUserRegistrationException(UserJoinException ex, WebRequest request) {
         return new ApiResponse(false, ex.getMessage(), ex.getClass().getName(), resolvePathFromWebRequest(request));
     }
 

@@ -20,22 +20,22 @@ import com.bithumbhomework.member.entity.User;
 
 public class OnUserRegistrationCompleteEvent extends ApplicationEvent {
 
-    private transient UriComponentsBuilder redirectUrl;
+//    private transient UriComponentsBuilder redirectUrl;
     private User user;
 
-    public OnUserRegistrationCompleteEvent(User user, UriComponentsBuilder redirectUrl) {
+    public OnUserRegistrationCompleteEvent(User user) {
         super(user);
         this.user = user;
-        this.redirectUrl = redirectUrl;
+//        this.redirectUrl = redirectUrl;
     }
 
-    public UriComponentsBuilder getRedirectUrl() {
-        return redirectUrl;
-    }
-
-    public void setRedirectUrl(UriComponentsBuilder redirectUrl) {
-        this.redirectUrl = redirectUrl;
-    }
+//    public UriComponentsBuilder getRedirectUrl() {
+//        return redirectUrl;
+//    }
+//
+//    public void setRedirectUrl(UriComponentsBuilder redirectUrl) {
+//        this.redirectUrl = redirectUrl;
+//    }
 
     public User getUser() {
         return user;

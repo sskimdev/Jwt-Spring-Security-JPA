@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -14,12 +15,19 @@ public class CustomUserDetails extends User implements UserDetails {
         super(user);
     }
 
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return getRoles().stream()
+//                .map(role -> new SimpleGrantedAuthority(role.getRole().name()))
+//                .collect(Collectors.toList());
+//    }
+    
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRole().name()))
-                .collect(Collectors.toList());
-    }
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+        ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
+        auth.add(new SimpleGrantedAuthority(super.getEmail()));
+        return auth;
+	}
 
     @Override
     public String getPassword() {
@@ -38,7 +46,7 @@ public class CustomUserDetails extends User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return super.getActive();
+        return true;
     }
 
     @Override

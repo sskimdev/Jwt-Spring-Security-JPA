@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.bithumbhomework.member.cache.LoggedOutJwtTokenCache;
-import com.bithumbhomework.member.event.OnUserLogoutSuccessEvent;
+//import com.bithumbhomework.member.event.OnUserLogoutSuccessEvent;
 import com.bithumbhomework.member.exception.InvalidTokenRequestException;
 
 import java.util.Date;
@@ -73,17 +73,17 @@ public class JwtTokenValidator {
             logger.error("JWT claims string is empty.");
             throw new InvalidTokenRequestException("JWT", authToken, "Illegal argument token");
         }
-        validateTokenIsNotForALoggedOutDevice(authToken);
+//        validateTokenIsNotForALoggedOutDevice(authToken);
         return true;
     }
 
-    private void validateTokenIsNotForALoggedOutDevice(String authToken) {
-        OnUserLogoutSuccessEvent previouslyLoggedOutEvent = loggedOutTokenCache.getLogoutEventForToken(authToken);
-        if (previouslyLoggedOutEvent != null) {
-            String userEmail = previouslyLoggedOutEvent.getUserEmail();
-            Date logoutEventDate = previouslyLoggedOutEvent.getEventTime();
-            String errorMessage = String.format("Token corresponds to an already logged out user [%s] at [%s]. Please login again", userEmail, logoutEventDate);
-            throw new InvalidTokenRequestException("JWT", authToken, errorMessage);
-        }
-    }
+//    private void validateTokenIsNotForALoggedOutDevice(String authToken) {
+//        OnUserLogoutSuccessEvent previouslyLoggedOutEvent = loggedOutTokenCache.getLogoutEventForToken(authToken);
+//        if (previouslyLoggedOutEvent != null) {
+//            String userEmail = previouslyLoggedOutEvent.getUserEmail();
+//            Date logoutEventDate = previouslyLoggedOutEvent.getEventTime();
+//            String errorMessage = String.format("Token corresponds to an already logged out user [%s] at [%s]. Please login again", userEmail, logoutEventDate);
+//            throw new InvalidTokenRequestException("JWT", authToken, errorMessage);
+//        }
+//    }
 }

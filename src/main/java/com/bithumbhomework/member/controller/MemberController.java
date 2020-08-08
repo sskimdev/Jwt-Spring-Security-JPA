@@ -37,14 +37,14 @@ import com.bithumbhomework.member.entity.CustomUserDetails;
 import com.bithumbhomework.member.entity.payload.ApiResponse;
 import com.bithumbhomework.member.entity.payload.JwtAuthenticationResponse;
 import com.bithumbhomework.member.entity.payload.LoginRequest;
-import com.bithumbhomework.member.entity.payload.PasswordResetLinkRequest;
-import com.bithumbhomework.member.entity.payload.PasswordResetRequest;
-import com.bithumbhomework.member.entity.payload.RegistrationRequest;
+//import com.bithumbhomework.member.entity.payload.PasswordResetLinkRequest;
+//import com.bithumbhomework.member.entity.payload.PasswordResetRequest;
+import com.bithumbhomework.member.entity.payload.JoinRequest;
 import com.bithumbhomework.member.entity.payload.TokenRefreshRequest;
 import com.bithumbhomework.member.entity.token.EmailVerificationToken;
 import com.bithumbhomework.member.entity.token.RefreshToken;
-import com.bithumbhomework.member.event.OnGenerateResetLinkEvent;
-import com.bithumbhomework.member.event.OnRegenerateEmailVerificationEvent;
+//import com.bithumbhomework.member.event.OnGenerateResetLinkEvent;
+//import com.bithumbhomework.member.event.OnRegenerateEmailVerificationEvent;
 import com.bithumbhomework.member.event.OnUserAccountChangeEvent;
 import com.bithumbhomework.member.event.OnUserRegistrationCompleteEvent;
 import com.bithumbhomework.member.exception.InvalidTokenRequestException;
@@ -52,7 +52,7 @@ import com.bithumbhomework.member.exception.PasswordResetException;
 import com.bithumbhomework.member.exception.PasswordResetLinkException;
 import com.bithumbhomework.member.exception.TokenRefreshException;
 import com.bithumbhomework.member.exception.UserLoginException;
-import com.bithumbhomework.member.exception.UserRegistrationException;
+import com.bithumbhomework.member.exception.UserJoinException;
 import com.bithumbhomework.member.security.JwtTokenProvider;
 import com.bithumbhomework.member.service.MemberAuthService;
 
@@ -66,13 +66,13 @@ import java.util.Optional;
 public class MemberController {
 
     private static final Logger logger = Logger.getLogger(MemberController.class);
-    private final MemberAuthService authService;
+    private final MemberAuthService memberService;
     private final JwtTokenProvider tokenProvider;
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public MemberController(MemberAuthService authService, JwtTokenProvider tokenProvider, ApplicationEventPublisher applicationEventPublisher) {
-        this.authService = authService;
+    public MemberController(MemberAuthService memberService, JwtTokenProvider tokenProvider, ApplicationEventPublisher applicationEventPublisher) {
+        this.memberService = memberService;
         this.tokenProvider = tokenProvider;
         this.applicationEventPublisher = applicationEventPublisher;
     }
@@ -83,7 +83,7 @@ public class MemberController {
 //    @ApiOperation(value = "Checks if the given email is in use")
 //    @GetMapping("/checkEmailInUse")
 //    public ResponseEntity checkEmailInUse(@ApiParam(value = "Email id to check against") @RequestParam("email") String email) {
-//        Boolean emailExists = authService.emailAlreadyExists(email);
+//        Boolean emailExists = memberService.emailAlreadyExists(email);
 //        return ResponseEntity.ok(new ApiResponse(true, emailExists.toString()));
 //    }
 //
@@ -94,7 +94,7 @@ public class MemberController {
 //    @GetMapping("/checkUsernameInUse")
 //    public ResponseEntity checkUsernameInUse(@ApiParam(value = "Username to check against") @RequestParam(
 //            "username") String username) {
-//        Boolean usernameExists = authService.usernameAlreadyExists(username);
+//        Boolean usernameExists = memberService.usernameAlreadyExists(username);
 //        return ResponseEntity.ok(new ApiResponse(true, usernameExists.toString()));
 //    }
     
@@ -109,17 +109,17 @@ public class MemberController {
 //    @PostMapping("/register")
     @PostMapping("/join")
     @ApiOperation(value = "회원 가입")
-    public ResponseEntity registerUser(@ApiParam(value = "The RegistrationRequest payload") @Valid @RequestBody RegistrationRequest registrationRequest) {
+    public ResponseEntity joinUser(@ApiParam(value = "The JoinRequest payload") @Valid @RequestBody JoinRequest joinRequest) {
 
-        return authService.registerUser(registrationRequest)
+        return memberService.joinUser(joinRequest)
                 .map(user -> {
-                    UriComponentsBuilder urlBuilder = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/auth/registrationConfirmation");
-                    OnUserRegistrationCompleteEvent onUserRegistrationCompleteEvent = new OnUserRegistrationCompleteEvent(user, urlBuilder);
-                    applicationEventPublisher.publishEvent(onUserRegistrationCompleteEvent);
+//                    UriComponentsBuilder urlBuilder = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/auth/registrationConfirmation");
+//                    OnUserRegistrationCompleteEvent onUserRegistrationCompleteEvent = new OnUserRegistrationCompleteEvent(user);
+//                    applicationEventPublisher.publishEvent(onUserRegistrationCompleteEvent);
                     logger.info("Registered User returned [API[: " + user);
-                    return ResponseEntity.ok(new ApiResponse(true, "User registered successfully. Check your email for verification"));
+                    return ResponseEntity.ok(new ApiResponse(true, "회원가입이 성공하였습니다."));
                 })
-                .orElseThrow(() -> new UserRegistrationException(registrationRequest.getEmail(), "Missing user object in database"));
+                .orElseThrow(() -> new UserJoinException(joinRequest.getEmail(), "Missing user object in database"));
     }
 
 
@@ -132,17 +132,17 @@ public class MemberController {
     @ApiOperation(value = "회원 로그인")
     public ResponseEntity authenticateUser(@ApiParam(value = "The LoginRequest payload") @Valid @RequestBody LoginRequest loginRequest) {
 
-        Authentication authentication = authService.authenticateUser(loginRequest)
+        Authentication authentication = memberService.authenticateUser(loginRequest)
                 .orElseThrow(() -> new UserLoginException("Couldn't login user [" + loginRequest + "]"));
 
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         logger.info("Logged in User returned [API]: " + customUserDetails.getUsername());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return authService.createAndPersistRefreshTokenForDevice(authentication, loginRequest)
+        return memberService.createAndPersistRefreshTokenForDevice(authentication, loginRequest)
                 .map(RefreshToken::getToken)
                 .map(refreshToken -> {
-                    String jwtToken = authService.generateToken(customUserDetails);
+                    String jwtToken = memberService.generateToken(customUserDetails);
                     return ResponseEntity.ok(new JwtAuthenticationResponse(jwtToken, refreshToken, tokenProvider.getExpiryDuration()));
                 })
                 .orElseThrow(() -> new UserLoginException("Couldn't create refresh token for: [" + loginRequest + "]"));
@@ -158,7 +158,7 @@ public class MemberController {
     @PreAuthorize("hasRole('USER')")
     @ApiOperation(value = "회원정보 조회")
     public ResponseEntity getUserProfile(@CurrentUser CustomUserDetails currentUser) {
-        logger.info(currentUser.getEmail() + " has role: " + currentUser.getRoles());
+//        logger.info(currentUser.getEmail() + " has role: " + currentUser.getRoles());
         return ResponseEntity.ok("Hello. This is about me");
     }
 
@@ -174,7 +174,7 @@ public class MemberController {
 //            "reset link")
 //    public ResponseEntity resetLink(@ApiParam(value = "The PasswordResetLinkRequest payload") @Valid @RequestBody PasswordResetLinkRequest passwordResetLinkRequest) {
 //
-//        return authService.generatePasswordResetToken(passwordResetLinkRequest)
+//        return memberService.generatePasswordResetToken(passwordResetLinkRequest)
 //                .map(passwordResetToken -> {
 //                    UriComponentsBuilder urlBuilder = ServletUriComponentsBuilder.fromCurrentContextPath().path("/password/reset");
 //                    OnGenerateResetLinkEvent generateResetLinkMailEvent = new OnGenerateResetLinkEvent(passwordResetToken,
@@ -195,7 +195,7 @@ public class MemberController {
 //            "email")
 //    public ResponseEntity resetPassword(@ApiParam(value = "The PasswordResetRequest payload") @Valid @RequestBody PasswordResetRequest passwordResetRequest) {
 //
-//        return authService.resetPassword(passwordResetRequest)
+//        return memberService.resetPassword(passwordResetRequest)
 //                .map(changedUser -> {
 //                    OnUserAccountChangeEvent onPasswordChangeEvent = new OnUserAccountChangeEvent(changedUser, "Reset Password",
 //                            "Changed Successfully");
@@ -213,7 +213,7 @@ public class MemberController {
 //    @ApiOperation(value = "Confirms the email verification token that has been generated for the user during registration")
 //    public ResponseEntity confirmRegistration(@ApiParam(value = "the token that was sent to the user email") @RequestParam("token") String token) {
 //
-//        return authService.confirmEmailRegistration(token)
+//        return memberService.confirmEmailRegistration(token)
 //                .map(user -> ResponseEntity.ok(new ApiResponse(true, "User verified successfully")))
 //                .orElseThrow(() -> new InvalidTokenRequestException("Email Verification Token", token, "Failed to confirm. Please generate a new email verification request"));
 //    }
@@ -231,7 +231,7 @@ public class MemberController {
 //            "tokens should fail and report an exception. ")
 //    public ResponseEntity resendRegistrationToken(@ApiParam(value = "the initial token that was sent to the user email after registration") @RequestParam("token") String existingToken) {
 //
-//        EmailVerificationToken newEmailToken = authService.recreateRegistrationToken(existingToken)
+//        EmailVerificationToken newEmailToken = memberService.recreateRegistrationToken(existingToken)
 //                .orElseThrow(() -> new InvalidTokenRequestException("Email Verification Token", existingToken, "User is already registered. No need to re-generate token"));
 //
 //        return Optional.ofNullable(newEmailToken.getUser())
@@ -253,7 +253,7 @@ public class MemberController {
 //            "updated response tokens")
 //    public ResponseEntity refreshJwtToken(@ApiParam(value = "The TokenRefreshRequest payload") @Valid @RequestBody TokenRefreshRequest tokenRefreshRequest) {
 //
-//        return authService.refreshJwtToken(tokenRefreshRequest)
+//        return memberService.refreshJwtToken(tokenRefreshRequest)
 //                .map(updatedToken -> {
 //                    String refreshToken = tokenRefreshRequest.getRefreshToken();
 //                    logger.info("Created new Jwt Auth token: " + updatedToken);

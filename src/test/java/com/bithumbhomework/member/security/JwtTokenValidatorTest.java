@@ -21,7 +21,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.bithumbhomework.member.cache.LoggedOutJwtTokenCache;
-import com.bithumbhomework.member.event.OnUserLogoutSuccessEvent;
+//import com.bithumbhomework.member.event.OnUserLogoutSuccessEvent;
 import com.bithumbhomework.member.exception.InvalidTokenRequestException;
 import com.bithumbhomework.member.security.JwtTokenProvider;
 import com.bithumbhomework.member.security.JwtTokenValidator;
@@ -57,8 +57,8 @@ public class JwtTokenValidatorTest {
     @Test
     public void testValidateTokenThrowsExceptionWhenTokenIsDamaged() {
         String token = tokenProvider.generateTokenFromUserId(100L);
-        OnUserLogoutSuccessEvent logoutEvent = stubLogoutEvent("U1", token);
-        when(loggedOutTokenCache.getLogoutEventForToken(token)).thenReturn(logoutEvent);
+//        OnUserLogoutSuccessEvent logoutEvent = stubLogoutEvent("U1", token);
+//        when(loggedOutTokenCache.getLogoutEventForToken(token)).thenReturn(logoutEvent);
 
         thrown.expect(InvalidTokenRequestException.class);
         thrown.expectMessage("Incorrect signature");
@@ -69,8 +69,8 @@ public class JwtTokenValidatorTest {
     public void testValidateTokenThrowsExceptionWhenTokenIsExpired() throws InterruptedException {
         String token = tokenProvider.generateTokenFromUserId(123L);
         TimeUnit.MILLISECONDS.sleep(jwtExpiryInMs);
-        OnUserLogoutSuccessEvent logoutEvent = stubLogoutEvent("U1", token);
-        when(loggedOutTokenCache.getLogoutEventForToken(token)).thenReturn(logoutEvent);
+//        OnUserLogoutSuccessEvent logoutEvent = stubLogoutEvent("U1", token);
+//        when(loggedOutTokenCache.getLogoutEventForToken(token)).thenReturn(logoutEvent);
 
         thrown.expect(InvalidTokenRequestException.class);
         thrown.expectMessage("Token expired. Refresh required");
@@ -80,8 +80,8 @@ public class JwtTokenValidatorTest {
     @Test
     public void testValidateTokenThrowsExceptionWhenItIsPresentInTokenCache() {
         String token = tokenProvider.generateTokenFromUserId(124L);
-        OnUserLogoutSuccessEvent logoutEvent = stubLogoutEvent("U2", token);
-        when(loggedOutTokenCache.getLogoutEventForToken(token)).thenReturn(logoutEvent);
+//        OnUserLogoutSuccessEvent logoutEvent = stubLogoutEvent("U2", token);
+//        when(loggedOutTokenCache.getLogoutEventForToken(token)).thenReturn(logoutEvent);
 
         thrown.expect(InvalidTokenRequestException.class);
         thrown.expectMessage("Token corresponds to an already logged out user [U2]");
@@ -92,10 +92,10 @@ public class JwtTokenValidatorTest {
     public void testValidateTokenWorksWhenItIsNotPresentInTokenCache() {
         String token = tokenProvider.generateTokenFromUserId(100L);
         tokenValidator.validateToken(token);
-        verify(loggedOutTokenCache, times(1)).getLogoutEventForToken(token);
+//        verify(loggedOutTokenCache, times(1)).getLogoutEventForToken(token);
     }
 
-    private OnUserLogoutSuccessEvent stubLogoutEvent(String email, String token) {
-        return new OnUserLogoutSuccessEvent(email, token, null);
-    }
+//    private OnUserLogoutSuccessEvent stubLogoutEvent(String email, String token) {
+//        return new OnUserLogoutSuccessEvent(email, token, null);
+//    }
 }
