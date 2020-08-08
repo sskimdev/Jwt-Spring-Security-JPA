@@ -22,7 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bithumbhomework.member.entity.CustomUserDetails;
-import com.bithumbhomework.member.entity.PasswordResetToken;
+//import com.bithumbhomework.member.entity.PasswordResetToken;
 import com.bithumbhomework.member.entity.User;
 import com.bithumbhomework.member.entity.UserDevice;
 import com.bithumbhomework.member.entity.payload.LoginRequest;
@@ -31,7 +31,7 @@ import com.bithumbhomework.member.entity.payload.LoginRequest;
 import com.bithumbhomework.member.entity.payload.JoinRequest;
 import com.bithumbhomework.member.entity.payload.TokenRefreshRequest;
 //import com.bithumbhomework.member.entity.payload.UpdatePasswordRequest;
-import com.bithumbhomework.member.entity.token.EmailVerificationToken;
+//import com.bithumbhomework.member.entity.token.EmailVerificationToken;
 import com.bithumbhomework.member.entity.token.RefreshToken;
 import com.bithumbhomework.member.exception.PasswordResetLinkException;
 import com.bithumbhomework.member.exception.ResourceAlreadyInUseException;
@@ -56,7 +56,7 @@ public class MemberAuthService {
 //    private final PasswordResetTokenService passwordResetTokenService;
 
     @Autowired
-    public MemberAuthService(UserService userService, JwtTokenProvider tokenProvider, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, UserDeviceService userDeviceService) {
+    public MemberAuthService(UserService userService, JwtTokenProvider tokenProvider, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, UserDeviceService userDeviceService, RefreshTokenService refreshTokenService) {
         this.userService = userService;
         this.tokenProvider = tokenProvider;
         this.refreshTokenService = refreshTokenService;
@@ -210,27 +210,27 @@ public class MemberAuthService {
         return Optional.ofNullable(refreshToken);
     }
 
-    /**
-     * Refresh the expired jwt token using a refresh token and device info. The
-     * * refresh token is mapped to a specific device and if it is unexpired, can help
-     * * generate a new jwt. If the refresh token is inactive for a device or it is expired,
-     * * throw appropriate errors.
-     */
-    public Optional<String> refreshJwtToken(TokenRefreshRequest tokenRefreshRequest) {
-        String requestRefreshToken = tokenRefreshRequest.getRefreshToken();
-
-        return Optional.of(refreshTokenService.findByToken(requestRefreshToken)
-                .map(refreshToken -> {
-                    refreshTokenService.verifyExpiration(refreshToken);
-                    userDeviceService.verifyRefreshAvailability(refreshToken);
-                    refreshTokenService.increaseCount(refreshToken);
-                    return refreshToken;
-                })
-                .map(RefreshToken::getUserDevice)
-                .map(UserDevice::getUser)
-                .map(User::getId).map(this::generateTokenFromUserId))
-                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "Missing refresh token in database.Please login again"));
-    }
+//    /**
+//     * Refresh the expired jwt token using a refresh token and device info. The
+//     * * refresh token is mapped to a specific device and if it is unexpired, can help
+//     * * generate a new jwt. If the refresh token is inactive for a device or it is expired,
+//     * * throw appropriate errors.
+//     */
+//    public Optional<String> refreshJwtToken(TokenRefreshRequest tokenRefreshRequest) {
+//        String requestRefreshToken = tokenRefreshRequest.getRefreshToken();
+//
+//        return Optional.of(refreshTokenService.findByToken(requestRefreshToken)
+//                .map(refreshToken -> {
+//                    refreshTokenService.verifyExpiration(refreshToken);
+//                    userDeviceService.verifyRefreshAvailability(refreshToken);
+//                    refreshTokenService.increaseCount(refreshToken);
+//                    return refreshToken;
+//                })
+//                .map(RefreshToken::getUserDevice)
+//                .map(UserDevice::getUser)
+//                .map(User::getId).map(this::generateTokenFromUserId))
+//                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "Missing refresh token in database.Please login again"));
+//    }
 
 //    /**
 //     * Generates a password reset token from the given reset request

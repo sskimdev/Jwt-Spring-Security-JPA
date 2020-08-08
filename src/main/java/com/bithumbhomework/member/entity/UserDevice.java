@@ -61,7 +61,7 @@ public class UserDevice extends DateAudit {
     }
 
     public UserDevice(Long id, User user, String notificationToken, String deviceId,
-                      RefreshToken refreshToken, Boolean isRefreshActive) {
+                      Boolean isRefreshActive) {
         this.id = id;
         this.user = user;
 //        this.deviceType = deviceType;

@@ -16,7 +16,7 @@ package com.bithumbhomework.member.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bithumbhomework.member.entity.UserDevice;
-import com.bithumbhomework.member.entity.token.RefreshToken;
+//import com.bithumbhomework.member.entity.token.RefreshToken;
 
 import java.util.Optional;
 
@@ -25,7 +25,7 @@ public interface UserDeviceRepository extends JpaRepository<UserDevice, Long> {
     @Override
     Optional<UserDevice> findById(Long id);
 
-    Optional<UserDevice> findByRefreshToken(RefreshToken refreshToken);
+//    Optional<UserDevice> findByRefreshToken(RefreshToken refreshToken);
 
     Optional<UserDevice> findByUserId(Long userId);
 }

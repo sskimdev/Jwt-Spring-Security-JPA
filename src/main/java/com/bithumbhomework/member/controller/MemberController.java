@@ -41,7 +41,7 @@ import com.bithumbhomework.member.entity.payload.LoginRequest;
 //import com.bithumbhomework.member.entity.payload.PasswordResetRequest;
 import com.bithumbhomework.member.entity.payload.JoinRequest;
 import com.bithumbhomework.member.entity.payload.TokenRefreshRequest;
-import com.bithumbhomework.member.entity.token.EmailVerificationToken;
+//import com.bithumbhomework.member.entity.token.EmailVerificationToken;
 import com.bithumbhomework.member.entity.token.RefreshToken;
 //import com.bithumbhomework.member.event.OnGenerateResetLinkEvent;
 //import com.bithumbhomework.member.event.OnRegenerateEmailVerificationEvent;
