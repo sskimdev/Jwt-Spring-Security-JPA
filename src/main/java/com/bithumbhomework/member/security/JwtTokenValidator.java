@@ -10,29 +10,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-//import com.bithumbhomework.member.cache.LoggedOutJwtTokenCache;
-//import com.bithumbhomework.member.event.OnUserLogoutSuccessEvent;
 import com.bithumbhomework.member.exception.InvalidTokenRequestException;
 
-import java.util.Date;
+//import java.util.Date;
 
 @Component
 public class JwtTokenValidator {
 
 	private static final Logger logger = Logger.getLogger(JwtTokenValidator.class);
 	private final String jwtSecret;
-//    private final LoggedOutJwtTokenCache loggedOutTokenCache;
 
 	@Autowired
 	public JwtTokenValidator(@Value("${app.jwt.secret}") String jwtSecret) {
 		this.jwtSecret = jwtSecret;
-//        this.loggedOutTokenCache = loggedOutTokenCache;
 	}
 
 	/**
-	 * Validates if a token satisfies the following properties - Signature is not
-	 * malformed - Token hasn't expired - Token is supported - Token has not
-	 * recently been logged out.
+	 * 토큰 유효성 체크
 	 */
 	public boolean validateToken(String authToken) {
 		try {
@@ -58,17 +52,7 @@ public class JwtTokenValidator {
 			logger.error("JWT claims string is empty.");
 			throw new InvalidTokenRequestException("JWT", authToken, "Illegal argument token");
 		}
-//        validateTokenIsNotForALoggedOutDevice(authToken);
 		return true;
 	}
 
-//    private void validateTokenIsNotForALoggedOutDevice(String authToken) {
-//        OnUserLogoutSuccessEvent previouslyLoggedOutEvent = loggedOutTokenCache.getLogoutEventForToken(authToken);
-//        if (previouslyLoggedOutEvent != null) {
-//            String userEmail = previouslyLoggedOutEvent.getUserEmail();
-//            Date logoutEventDate = previouslyLoggedOutEvent.getEventTime();
-//            String errorMessage = String.format("Token corresponds to an already logged out user [%s] at [%s]. Please login again", userEmail, logoutEventDate);
-//            throw new InvalidTokenRequestException("JWT", authToken, errorMessage);
-//        }
-//    }
 }

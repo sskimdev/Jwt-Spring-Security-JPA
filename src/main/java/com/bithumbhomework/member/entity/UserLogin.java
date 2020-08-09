@@ -1,16 +1,3 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.bithumbhomework.member.entity;
 
 import javax.persistence.Column;
@@ -40,10 +27,6 @@ public class UserLogin extends DateAudit {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID", nullable = false)
 	private User user;
-//
-//    @Column(name = "DEVICE_TYPE")
-//    @Enumerated(value = EnumType.STRING)
-//    private DeviceType deviceType;
 
 	@Column(name = "NOTIFICATION_TOKEN")
 	private String notificationToken;
@@ -63,7 +46,6 @@ public class UserLogin extends DateAudit {
 	public UserLogin(Long id, User user, String notificationToken, String loginId, Boolean isRefreshActive) {
 		this.id = id;
 		this.user = user;
-//        this.deviceType = deviceType;
 		this.notificationToken = notificationToken;
 		this.loginId = loginId;
 		this.refreshToken = refreshToken;
@@ -160,59 +142,4 @@ public class UserLogin extends DateAudit {
 				+ loginId + ", refreshToken=" + refreshToken + ", isRefreshActive=" + isRefreshActive + "]";
 	}
 
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
-//
-////    public DeviceType getDeviceType() {
-////        return deviceType;
-////    }
-////
-////    public void setDeviceType(DeviceType deviceType) {
-////        this.deviceType = deviceType;
-////    }
-//
-//    public String getNotificationToken() {
-//        return notificationToken;
-//    }
-//
-//    public void setNotificationToken(String notificationToken) {
-//        this.notificationToken = notificationToken;
-//    }
-//
-//    public String getDeviceId() {
-//        return deviceId;
-//    }
-//
-//    public void setDeviceId(String deviceId) {
-//        this.deviceId = deviceId;
-//    }
-//
-//    public RefreshToken getRefreshToken() {
-//        return refreshToken;
-//    }
-//
-//    public void setRefreshToken(RefreshToken refreshToken) {
-//        this.refreshToken = refreshToken;
-//    }
-//
-//    public Boolean getRefreshActive() {
-//        return isRefreshActive;
-//    }
-//
-//    public void setRefreshActive(Boolean refreshActive) {
-//        isRefreshActive = refreshActive;
-//    }
 }

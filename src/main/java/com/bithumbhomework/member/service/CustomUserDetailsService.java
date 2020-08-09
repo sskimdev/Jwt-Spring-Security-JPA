@@ -1,16 +1,3 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.bithumbhomework.member.service;
 
 import org.apache.log4j.Logger;
@@ -42,13 +29,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 		Optional<User> dbUser = userRepository.findByEmail(email);
 		logger.info("Fetched user : " + dbUser + " by " + email);
 		return dbUser.map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException(
-				"Couldn't find a matching user email in the database for " + email));
+				"이메일이 일치하는 회원을 찾을수가 없습니다. email=" + email));
 	}
 
 	public UserDetails loadUserById(Long id) {
 		Optional<User> dbUser = userRepository.findById(id);
 		logger.info("Fetched user : " + dbUser + " by " + id);
 		return dbUser.map(CustomUserDetails::new).orElseThrow(
-				() -> new UsernameNotFoundException("Couldn't find a matching user id in the database for " + id));
+				() -> new UsernameNotFoundException("ID가 일치하는 회원을 찾을수가 없습니다. id=" + id));
 	}
 }

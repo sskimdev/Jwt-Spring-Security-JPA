@@ -24,8 +24,6 @@ public class JwtTokenValidatorTest {
 	private static final String jwtSecret = "testSecret";
 	private static final long jwtExpiryInMs = 2500;
 
-//	@Mock
-//	private LoggedOutJwtTokenCache loggedOutTokenCache;
 
 	private JwtTokenProvider tokenProvider;
 
@@ -44,8 +42,6 @@ public class JwtTokenValidatorTest {
 	@Test
 	public void testValidateTokenThrowsExceptionWhenTokenIsDamaged() {
 		String token = tokenProvider.generateTokenFromUserId(100L);
-//        OnUserLogoutSuccessEvent logoutEvent = stubLogoutEvent("U1", token);
-//        when(loggedOutTokenCache.getLogoutEventForToken(token)).thenReturn(logoutEvent);
 
 		thrown.expect(InvalidTokenRequestException.class);
 		thrown.expectMessage("Incorrect signature");
@@ -56,33 +52,17 @@ public class JwtTokenValidatorTest {
 	public void testValidateTokenThrowsExceptionWhenTokenIsExpired() throws InterruptedException {
 		String token = tokenProvider.generateTokenFromUserId(123L);
 		TimeUnit.MILLISECONDS.sleep(jwtExpiryInMs);
-//        OnUserLogoutSuccessEvent logoutEvent = stubLogoutEvent("U1", token);
-//        when(loggedOutTokenCache.getLogoutEventForToken(token)).thenReturn(logoutEvent);
 
 		thrown.expect(InvalidTokenRequestException.class);
 		thrown.expectMessage("Token expired. Refresh required");
 		tokenValidator.validateToken(token);
 	}
 
-	@Test
-	public void testValidateTokenThrowsExceptionWhenItIsPresentInTokenCache() {
-		String token = tokenProvider.generateTokenFromUserId(124L);
-//        OnUserLogoutSuccessEvent logoutEvent = stubLogoutEvent("U2", token);
-//        when(loggedOutTokenCache.getLogoutEventForToken(token)).thenReturn(logoutEvent);
-
-		thrown.expect(InvalidTokenRequestException.class);
-		thrown.expectMessage("Token corresponds to an already logged out user [U2]");
-		tokenValidator.validateToken(token);
-	}
 
 	@Test
 	public void testValidateTokenWorksWhenItIsNotPresentInTokenCache() {
 		String token = tokenProvider.generateTokenFromUserId(100L);
 		tokenValidator.validateToken(token);
-//        verify(loggedOutTokenCache, times(1)).getLogoutEventForToken(token);
 	}
 
-//    private OnUserLogoutSuccessEvent stubLogoutEvent(String email, String token) {
-//        return new OnUserLogoutSuccessEvent(email, token, null);
-//    }
 }

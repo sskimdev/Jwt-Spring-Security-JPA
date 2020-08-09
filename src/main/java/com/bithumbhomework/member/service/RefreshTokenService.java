@@ -26,21 +26,21 @@ public class RefreshTokenService {
 	}
 
 	/**
-	 * Find a refresh token based on the natural id i.e the token itself
+	 * 로그인 토큰을 이용한 refresh token 조회 
 	 */
 	public Optional<RefreshToken> findByToken(String token) {
 		return refreshTokenRepository.findByToken(token);
 	}
 
 	/**
-	 * Persist the updated refreshToken instance to database
+	 * refresh token 저장 
 	 */
 	public RefreshToken save(RefreshToken refreshToken) {
 		return refreshTokenRepository.save(refreshToken);
 	}
 
 	/**
-	 * Creates and returns a new refresh token
+	 * refresh token 생성 
 	 */
 	public RefreshToken createRefreshToken() {
 		RefreshToken refreshToken = new RefreshToken();
@@ -51,25 +51,23 @@ public class RefreshTokenService {
 	}
 
 	/**
-	 * Verify whether the token provided has expired or not on the basis of the
-	 * current server time and/or throw error otherwise
+	 * refresh token 유효성 체크
 	 */
 	public void verifyExpiration(RefreshToken token) {
 		if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
-			throw new TokenRefreshException(token.getToken(), "Expired token. Please issue a new request");
+			throw new TokenRefreshException(token.getToken(), "Expired token : 토큰 발행을 다시 요청하세요.");
 		}
 	}
 
 	/**
-	 * Delete the refresh token associated with the user device
+	 * refresh token 삭제 
 	 */
 	public void deleteById(Long id) {
 		refreshTokenRepository.deleteById(id);
 	}
 
 	/**
-	 * Increase the count of the token usage in the database. Useful for audit
-	 * purposes
+	 * refresh token count 증가시키기 
 	 */
 	public void increaseCount(RefreshToken refreshToken) {
 		refreshToken.incrementRefreshCount();

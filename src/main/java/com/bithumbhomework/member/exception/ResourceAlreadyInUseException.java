@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.CONFLICT)
 public class ResourceAlreadyInUseException extends RuntimeException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1701597551831689250L;
 	private final String resourceName;
 	private final String fieldName;
 	private final transient Object fieldValue;

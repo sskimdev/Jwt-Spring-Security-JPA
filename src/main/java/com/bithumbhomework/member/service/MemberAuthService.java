@@ -1,16 +1,3 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.bithumbhomework.member.service;
 
 import org.apache.log4j.Logger;
@@ -22,23 +9,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bithumbhomework.member.entity.CustomUserDetails;
-//import com.bithumbhomework.member.entity.PasswordResetToken;
 import com.bithumbhomework.member.entity.User;
 import com.bithumbhomework.member.entity.UserLogin;
 import com.bithumbhomework.member.entity.payload.LoginRequest;
-//import com.bithumbhomework.member.entity.payload.PasswordResetLinkRequest;
-//import com.bithumbhomework.member.entity.payload.PasswordResetRequest;
 import com.bithumbhomework.member.entity.payload.JoinRequest;
-import com.bithumbhomework.member.entity.payload.TokenRefreshRequest;
-//import com.bithumbhomework.member.entity.payload.UpdatePasswordRequest;
-//import com.bithumbhomework.member.entity.token.EmailVerificationToken;
 import com.bithumbhomework.member.entity.token.RefreshToken;
-//import com.bithumbhomework.member.exception.PasswordResetLinkException;
+import com.bithumbhomework.member.exception.InvalidFormatRequestException;
 import com.bithumbhomework.member.exception.ResourceAlreadyInUseException;
-import com.bithumbhomework.member.exception.ResourceNotFoundException;
-import com.bithumbhomework.member.exception.TokenRefreshException;
-//import com.bithumbhomework.member.exception.UpdatePasswordException;
 import com.bithumbhomework.member.security.JwtTokenProvider;
+import com.bithumbhomework.member.util.Util;
 
 import java.util.Optional;
 
@@ -51,9 +30,7 @@ public class MemberAuthService {
 	private final RefreshTokenService refreshTokenService;
 	private final PasswordEncoder passwordEncoder;
 	private final AuthenticationManager authenticationManager;
-//    private final EmailVerificationTokenService emailVerificationTokenService;
 	private final UserLoginService userLoginService;
-//    private final PasswordResetTokenService passwordResetTokenService;
 
 	@Autowired
 	public MemberAuthService(UserService userService, JwtTokenProvider tokenProvider, PasswordEncoder passwordEncoder,
@@ -64,13 +41,11 @@ public class MemberAuthService {
 		this.refreshTokenService = refreshTokenService;
 		this.passwordEncoder = passwordEncoder;
 		this.authenticationManager = authenticationManager;
-//        this.emailVerificationTokenService = emailVerificationTokenService;
 		this.userLoginService = userLoginService;
-//        this.passwordResetTokenService = passwordResetTokenService;
 	}
 
 	/**
-	 * Registers a new user in the database by performing a series of quick checks.
+	 * 신규 회원 가입
 	 *
 	 * @return A user object if successfully created
 	 */
@@ -79,6 +54,10 @@ public class MemberAuthService {
 		if (emailAlreadyExists(newRegistrationRequestEmail)) {
 			logger.error("Email already exists: " + newRegistrationRequestEmail);
 			throw new ResourceAlreadyInUseException("Email", "Address", newRegistrationRequestEmail);
+		}
+		if (!validateEmailFormat(newRegistrationRequestEmail)) {
+			logger.error("Email invalid: " + newRegistrationRequestEmail);
+			throw new InvalidFormatRequestException("Email", newRegistrationRequestEmail);
 		}
 		logger.info("Trying to register new user [" + newRegistrationRequestEmail + "]");
 		User newUser = userService.createUser(newRegistrationRequest);
@@ -101,117 +80,61 @@ public class MemberAuthService {
 	 *
 	 * @return true if the email exists else false
 	 */
-	public Boolean emailValidationCheck(String email) {
-		return userService.existsByEmail(email);
+	public Boolean validateEmailFormat(String email) {
+		return Util.validateEmailFormat(email);
 	}
-//
-//    /**
-//     * Checks if the given email already exists in the database repository or not
-//     *
-//     * @return true if the email exists else false
-//     */
-//    public Boolean usernameAlreadyExists(String username) {
-//        return userService.existsByUsername(username);
-//    }
+	
+	/**
+	 * 비밀번호 생성 규칙 (영어 대문자, 영어 소문자, 숫자, 특수문자 중 3종류 이상으로 12자리 이상의 문자열로 생성) 
+	 *
+	 * @return true if the email exists else false
+	 */
+	public Boolean validatePasswordRule(String password) {
+		return Util.validatePasswordRule(password);
+	}
 
 	/**
-	 * Authenticate user and log them in given a loginRequest
+	 * 회원 인증 요청
 	 */
 	public Optional<Authentication> authenticateUser(LoginRequest loginRequest) {
 		return Optional.ofNullable(authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())));
 	}
 
-//    /**
-//     * Confirms the user verification based on the token expiry and mark the user as active.
-//     * If user is already verified, save the unnecessary database calls.
-//     */
-//    public Optional<User> confirmEmailRegistration(String emailToken) {
-//        EmailVerificationToken emailVerificationToken = emailVerificationTokenService.findByToken(emailToken)
-//                .orElseThrow(() -> new ResourceNotFoundException("Token", "Email verification", emailToken));
-//
-//        User registeredUser = emailVerificationToken.getUser();
-//        if (registeredUser.getEmailVerified()) {
-//            logger.info("User [" + emailToken + "] already registered.");
-//            return Optional.of(registeredUser);
-//        }
-//
-//        emailVerificationTokenService.verifyExpiration(emailVerificationToken);
-//        emailVerificationToken.setConfirmedStatus();
-//        emailVerificationTokenService.save(emailVerificationToken);
-//
-//        registeredUser.markVerificationConfirmed();
-//        userService.save(registeredUser);
-//        return Optional.of(registeredUser);
-//    }
-//
-//    /**
-//     * Attempt to regenerate a new email verification token given a valid
-//     * previous expired token. If the previous token is valid, increase its expiry
-//     * else update the token value and add a new expiration.
-//     */
-//    public Optional<EmailVerificationToken> recreateRegistrationToken(String existingToken) {
-//        EmailVerificationToken emailVerificationToken = emailVerificationTokenService.findByToken(existingToken)
-//                .orElseThrow(() -> new ResourceNotFoundException("Token", "Existing email verification", existingToken));
-//
-//        if (emailVerificationToken.getUser().getEmailVerified()) {
-//            return Optional.empty();
-//        }
-//        return Optional.ofNullable(emailVerificationTokenService.updateExistingTokenWithNameAndExpiry(emailVerificationToken));
-//    }
-
 	/**
-	 * Validates the password of the current logged in user with the given password
+	 * 패스워드 검증 
 	 */
+	@SuppressWarnings("unused")
 	private Boolean currentPasswordMatches(User currentUser, String password) {
 		return passwordEncoder.matches(password, currentUser.getPassword());
 	}
 
-//    /**
-//     * Updates the password of the current logged in user
-//     */
-//    public Optional<User> updatePassword(CustomUserDetails customUserDetails) {
-//        String email = customUserDetails.getEmail();
-//        User currentUser = userService.findByEmail(email)
-//                .orElseThrow(() -> new UpdatePasswordException(email, "No matching user found"));
-//
-//        if (!currentPasswordMatches(currentUser, updatePasswordRequest.getOldPassword())) {
-//            logger.info("Current password is invalid for [" + currentUser.getPassword() + "]");
-//            throw new UpdatePasswordException(currentUser.getEmail(), "Invalid current password");
-//        }
-//        String newPassword = passwordEncoder.encode(updatePasswordRequest.getNewPassword());
-//        currentUser.setPassword(newPassword);
-//        userService.save(currentUser);
-//        return Optional.of(currentUser);
-//    }
-
 	/**
-	 * Generates a JWT token for the validated client
+	 * Generates a JWT token by CustomUserDetails
 	 */
 	public String generateToken(CustomUserDetails customUserDetails) {
 		return tokenProvider.generateToken(customUserDetails);
 	}
 
 	/**
-	 * Generates a JWT token for the validated client by userId
+	 * Generates a JWT token by user id
 	 */
+	@SuppressWarnings("unused")
 	private String generateTokenFromUserId(Long userId) {
 		return tokenProvider.generateTokenFromUserId(userId);
 	}
 
 	/**
-	 * Creates and persists the refresh token for the user device. If device exists
-	 * already, we don't care. Unused devices with expired tokens should be cleaned
-	 * with a cron job. The generated token would be encapsulated within the jwt.
-	 * Remove the existing refresh token as the old one should not remain valid.
+	 * 로그인 유저를 위한 refresh token 생성 및 저장
 	 */
-	public Optional<RefreshToken> createAndPersistRefreshTokenForDevice(Authentication authentication,
+	public Optional<RefreshToken> createAndPersistRefreshTokenForLogin(Authentication authentication,
 			LoginRequest loginRequest) {
 		User currentUser = (User) authentication.getPrincipal();
 		userLoginService.findByUserId(currentUser.getId()).map(UserLogin::getRefreshToken).map(RefreshToken::getId)
 				.ifPresent(refreshTokenService::deleteById);
 
-		UserLogin userLogin = userLoginService.createUserLogin(loginRequest.getLoginInfo());
+//		UserLogin userLogin = userLoginService.createUserLogin(loginRequest.getLoginInfo());
+		UserLogin userLogin = userLoginService.createUserLogin(Util.generateRandomUuid());
 		RefreshToken refreshToken = refreshTokenService.createRefreshToken();
 		userLogin.setUser(currentUser);
 		userLogin.setRefreshToken(refreshToken);
@@ -220,60 +143,4 @@ public class MemberAuthService {
 		return Optional.ofNullable(refreshToken);
 	}
 
-//    /**
-//     * Refresh the expired jwt token using a refresh token and device info. The
-//     * * refresh token is mapped to a specific device and if it is unexpired, can help
-//     * * generate a new jwt. If the refresh token is inactive for a device or it is expired,
-//     * * throw appropriate errors.
-//     */
-//    public Optional<String> refreshJwtToken(TokenRefreshRequest tokenRefreshRequest) {
-//        String requestRefreshToken = tokenRefreshRequest.getRefreshToken();
-//
-//        return Optional.of(refreshTokenService.findByToken(requestRefreshToken)
-//                .map(refreshToken -> {
-//                    refreshTokenService.verifyExpiration(refreshToken);
-//                    userDeviceService.verifyRefreshAvailability(refreshToken);
-//                    refreshTokenService.increaseCount(refreshToken);
-//                    return refreshToken;
-//                })
-//                .map(RefreshToken::getUserDevice)
-//                .map(UserLogin::getUser)
-//                .map(User::getId).map(this::generateTokenFromUserId))
-//                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "Missing refresh token in database.Please login again"));
-//    }
-
-//    /**
-//     * Generates a password reset token from the given reset request
-//     */
-//    public Optional<PasswordResetToken> generatePasswordResetToken(PasswordResetLinkRequest passwordResetLinkRequest) {
-//        String email = passwordResetLinkRequest.getEmail();
-//        return userService.findByEmail(email)
-//                .map(user -> {
-//                    PasswordResetToken passwordResetToken = passwordResetTokenService.createToken();
-//                    passwordResetToken.setUser(user);
-//                    passwordResetTokenService.save(passwordResetToken);
-//                    return Optional.of(passwordResetToken);
-//                })
-//                .orElseThrow(() -> new PasswordResetLinkException(email, "No matching user found for the given request"));
-//    }
-//
-//    /**
-//     * Reset a password given a reset request and return the updated user
-//     */
-//    public Optional<User> resetPassword(PasswordResetRequest passwordResetRequest) {
-//        String token = passwordResetRequest.getToken();
-//        PasswordResetToken passwordResetToken = passwordResetTokenService.findByToken(token)
-//                .orElseThrow(() -> new ResourceNotFoundException("Password Reset Token", "Token Id", token));
-//
-//        passwordResetTokenService.verifyExpiration(passwordResetToken);
-//        final String encodedPassword = passwordEncoder.encode(passwordResetRequest.getPassword());
-//
-//        return Optional.of(passwordResetToken)
-//                .map(PasswordResetToken::getUser)
-//                .map(user -> {
-//                    user.setPassword(encodedPassword);
-//                    userService.save(user);
-//                    return user;
-//                });
-//    }
 }

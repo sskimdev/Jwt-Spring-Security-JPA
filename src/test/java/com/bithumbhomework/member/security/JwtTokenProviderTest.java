@@ -8,7 +8,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.bithumbhomework.member.entity.CustomUserDetails;
 import com.bithumbhomework.member.entity.User;
-import com.bithumbhomework.member.security.JwtTokenProvider;
+//import com.bithumbhomework.member.security.JwtTokenProvider;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

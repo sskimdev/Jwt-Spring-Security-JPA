@@ -4,23 +4,18 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class CustomUserDetails extends User implements UserDetails {
+	
+	private Instant lastLoginedAt;
 
 	public CustomUserDetails(final User user) {
 		super(user);
 	}
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return getRoles().stream()
-//                .map(role -> new SimpleGrantedAuthority(role.getRole().name()))
-//                .collect(Collectors.toList());
-//    }
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -58,6 +53,20 @@ public class CustomUserDetails extends User implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+	
+	/**
+	 * @return the lastLoginedAt
+	 */
+	public Instant getLastLoginedAt() {
+		return lastLoginedAt;
+	}
+
+	/**
+	 * @param lastLoginedAt the lastLoginedAt to set
+	 */
+	public void setLastLoginedAt(Instant lastLoginedAt) {
+		this.lastLoginedAt = lastLoginedAt;
+	}
 
 	@Override
 	public int hashCode() {
@@ -75,4 +84,5 @@ public class CustomUserDetails extends User implements UserDetails {
 		CustomUserDetails that = (CustomUserDetails) obj;
 		return Objects.equals(getId(), that.getId());
 	}
+	
 }
