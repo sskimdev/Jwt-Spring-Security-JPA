@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,10 +47,10 @@ import com.bithumbhomework.member.entity.token.RefreshToken;
 //import com.bithumbhomework.member.event.OnGenerateResetLinkEvent;
 //import com.bithumbhomework.member.event.OnRegenerateEmailVerificationEvent;
 import com.bithumbhomework.member.event.OnUserAccountChangeEvent;
-import com.bithumbhomework.member.event.OnUserRegistrationCompleteEvent;
+import com.bithumbhomework.member.event.OnUserJoinCompleteEvent;
 import com.bithumbhomework.member.exception.InvalidTokenRequestException;
-import com.bithumbhomework.member.exception.PasswordResetException;
-import com.bithumbhomework.member.exception.PasswordResetLinkException;
+//import com.bithumbhomework.member.exception.PasswordResetException;
+//import com.bithumbhomework.member.exception.PasswordResetLinkException;
 import com.bithumbhomework.member.exception.TokenRefreshException;
 import com.bithumbhomework.member.exception.UserLoginException;
 import com.bithumbhomework.member.exception.UserJoinException;
@@ -65,17 +66,18 @@ import java.util.Optional;
 
 public class MemberController {
 
-    private static final Logger logger = Logger.getLogger(MemberController.class);
-    private final MemberAuthService memberService;
-    private final JwtTokenProvider tokenProvider;
-    private final ApplicationEventPublisher applicationEventPublisher;
+	private static final Logger logger = Logger.getLogger(MemberController.class);
+	private final MemberAuthService memberService;
+	private final JwtTokenProvider tokenProvider;
+	private final ApplicationEventPublisher applicationEventPublisher;
 
-    @Autowired
-    public MemberController(MemberAuthService memberService, JwtTokenProvider tokenProvider, ApplicationEventPublisher applicationEventPublisher) {
-        this.memberService = memberService;
-        this.tokenProvider = tokenProvider;
-        this.applicationEventPublisher = applicationEventPublisher;
-    }
+	@Autowired
+	public MemberController(MemberAuthService memberService, JwtTokenProvider tokenProvider,
+			ApplicationEventPublisher applicationEventPublisher) {
+		this.memberService = memberService;
+		this.tokenProvider = tokenProvider;
+		this.applicationEventPublisher = applicationEventPublisher;
+	}
 
 //    /**
 //     * Checks is a given email is in use or not.
@@ -97,72 +99,68 @@ public class MemberController {
 //        Boolean usernameExists = memberService.usernameAlreadyExists(username);
 //        return ResponseEntity.ok(new ApiResponse(true, usernameExists.toString()));
 //    }
-    
-    
-    /**
-     * 1. 회원가입 URI는 다음과 같습니다. : /v1/member/join
-     * 2. 회원가입 시 필요한 정보는 ID, 비밀번호, 사용자이름 입니다.
-     * 3. ID는 반드시 email 형식이어야 합니다.
-     * 4. 비밀번호는 영어 대문자, 영어 소문자, 숫자, 특수문자 중 3종류 이상으로 12자리 이상의 문자열로 생성해야 합니다.
-     * 5. 비밀번호는 서버에 저장될 때에는 반드시 단방향 해시 처리가 되어야 합니다.
-     */
+
+	/**
+	 * 1. 회원가입 URI는 다음과 같습니다. : /v1/member/join 2. 회원가입 시 필요한 정보는 ID, 비밀번호, 사용자이름
+	 * 입니다. 3. ID는 반드시 email 형식이어야 합니다. 4. 비밀번호는 영어 대문자, 영어 소문자, 숫자, 특수문자 중 3종류 이상으로
+	 * 12자리 이상의 문자열로 생성해야 합니다. 5. 비밀번호는 서버에 저장될 때에는 반드시 단방향 해시 처리가 되어야 합니다.
+	 */
 //    @PostMapping("/register")
-    @PostMapping("/join")
-    @ApiOperation(value = "회원 가입")
-    public ResponseEntity joinUser(@ApiParam(value = "The JoinRequest payload") @Valid @RequestBody JoinRequest joinRequest) {
+	@PostMapping("/join")
+	@ApiOperation(value = "회원 가입")
+	public ResponseEntity joinUser(
+			@ApiParam(value = "The JoinRequest payload") @Valid @RequestBody JoinRequest joinRequest, Errors errors) {
 
-        return memberService.joinUser(joinRequest)
-                .map(user -> {
+		if (errors.hasErrors()) {
+			return ResponseEntity.badRequest().build();
+		}
+
+		return memberService.joinUser(joinRequest).map(user -> {
 //                    UriComponentsBuilder urlBuilder = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/auth/registrationConfirmation");
-//                    OnUserRegistrationCompleteEvent onUserRegistrationCompleteEvent = new OnUserRegistrationCompleteEvent(user);
+//                    OnUserJoinCompleteEvent onUserRegistrationCompleteEvent = new OnUserJoinCompleteEvent(user);
 //                    applicationEventPublisher.publishEvent(onUserRegistrationCompleteEvent);
-                    logger.info("Registered User returned [API[: " + user);
-                    return ResponseEntity.ok(new ApiResponse(true, "회원가입이 성공하였습니다."));
-                })
-                .orElseThrow(() -> new UserJoinException(joinRequest.getEmail(), "Missing user object in database"));
-    }
+			logger.info("User Join API : [: " + user);
+			return ResponseEntity.ok(new ApiResponse(true, "회원가입이 성공하였습니다."));
+		}).orElseThrow(() -> new UserJoinException(joinRequest.getEmail(), "Missing user object in database"));
+	}
 
+	/**
+	 * 1. 로그인 URI는 다음과 같습니다. : /v1/member/login 2. 사용자로부터 ID, 비밀번호를 입력받아 로그인을 처리합니다
+	 * 3. ID와 비밀번호가 이미 가입되어 있는 회원의 정보와 일치하면 로그인이 되었다는 응답으로 AccessToken을 제공합니다
+	 */
+	@PostMapping("/login")
+	@ApiOperation(value = "회원 로그인")
+	public ResponseEntity authenticateUser(
+			@ApiParam(value = "The LoginRequest payload") @Valid @RequestBody LoginRequest loginRequest) {
 
-    /**
-     * 1. 로그인 URI는 다음과 같습니다. : /v1/member/login
-     * 2. 사용자로부터 ID, 비밀번호를 입력받아 로그인을 처리합니다
-     * 3. ID와 비밀번호가 이미 가입되어 있는 회원의 정보와 일치하면 로그인이 되었다는 응답으로 AccessToken을 제공합니다
-     */
-    @PostMapping("/login")
-    @ApiOperation(value = "회원 로그인")
-    public ResponseEntity authenticateUser(@ApiParam(value = "The LoginRequest payload") @Valid @RequestBody LoginRequest loginRequest) {
+		Authentication authentication = memberService.authenticateUser(loginRequest)
+				.orElseThrow(() -> new UserLoginException("Couldn't login user [" + loginRequest + "]"));
 
-        Authentication authentication = memberService.authenticateUser(loginRequest)
-                .orElseThrow(() -> new UserLoginException("Couldn't login user [" + loginRequest + "]"));
+		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+		logger.info("Logged in User returned [API]: " + customUserDetails.getUsername());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        logger.info("Logged in User returned [API]: " + customUserDetails.getUsername());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+		return memberService.createAndPersistRefreshTokenForDevice(authentication, loginRequest)
+				.map(RefreshToken::getToken).map(refreshToken -> {
+					String jwtToken = memberService.generateToken(customUserDetails);
+					return ResponseEntity.ok(
+							new JwtAuthenticationResponse(jwtToken, refreshToken, tokenProvider.getExpiryDuration()));
+				})
+				.orElseThrow(() -> new UserLoginException("Couldn't create refresh token for: [" + loginRequest + "]"));
+	}
 
-        return memberService.createAndPersistRefreshTokenForDevice(authentication, loginRequest)
-                .map(RefreshToken::getToken)
-                .map(refreshToken -> {
-                    String jwtToken = memberService.generateToken(customUserDetails);
-                    return ResponseEntity.ok(new JwtAuthenticationResponse(jwtToken, refreshToken, tokenProvider.getExpiryDuration()));
-                })
-                .orElseThrow(() -> new UserLoginException("Couldn't create refresh token for: [" + loginRequest + "]"));
-    }
-    
-    
-    /**
-     * 1. 회원정보 조회 URI는 다음과 같습니다. : /v1/member/info
-     * 2. 로그인이 된 사용자에 대해서는 사용자이름, Email, 직전 로그인 일시를 제공합니다.
-     * 3. 로그인이 안된 사용자는 HTTP Status Code를 401 (Unauthorized)로 응답합니다.
-     */
-    @GetMapping("/info")
+	/**
+	 * 1. 회원정보 조회 URI는 다음과 같습니다. : /v1/member/info 2. 로그인이 된 사용자에 대해서는 사용자이름, Email,
+	 * 직전 로그인 일시를 제공합니다. 3. 로그인이 안된 사용자는 HTTP Status Code를 401 (Unauthorized)로
+	 * 응답합니다.
+	 */
+	@GetMapping("/info")
 //    @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "회원정보 조회")
-    public ResponseEntity getUserProfile(@CurrentUser CustomUserDetails currentUser) {
-        logger.info(currentUser.getEmail());
-        return ResponseEntity.ok("Hello. This is about me. " + currentUser.getEmail());
-    }
-
-
+	@ApiOperation(value = "회원정보 조회")
+	public ResponseEntity getUserProfile(@CurrentUser CustomUserDetails currentUser) {
+		logger.info(currentUser.getEmail());
+		return ResponseEntity.ok("Hello. This is about me. " + currentUser);
+	}
 
 //    /**
 //     * Receives the reset link request and publishes an event to send email id containing

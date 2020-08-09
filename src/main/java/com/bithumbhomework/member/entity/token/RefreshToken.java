@@ -2,7 +2,7 @@ package com.bithumbhomework.member.entity.token;
 
 import org.hibernate.annotations.NaturalId;
 
-import com.bithumbhomework.member.entity.UserDevice;
+import com.bithumbhomework.member.entity.UserLogin;
 import com.bithumbhomework.member.entity.audit.DateAudit;
 
 import javax.persistence.CascadeType;
@@ -19,78 +19,154 @@ import java.time.Instant;
 @Entity(name = "REFRESH_TOKEN")
 public class RefreshToken extends DateAudit {
 
-    @Id
-    @Column(name = "TOKEN_ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "refresh_token_seq")
-    @SequenceGenerator(name = "refresh_token_seq", allocationSize = 1)
-    private Long id;
+	@Id
+	@Column(name = "TOKEN_ID")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "refresh_token_seq")
+	@SequenceGenerator(name = "refresh_token_seq", allocationSize = 1)
+	private Long id;
 
-    @Column(name = "TOKEN", nullable = false, unique = true)
-    @NaturalId(mutable = true)
-    private String token;
+	@Column(name = "TOKEN", nullable = false, unique = true)
+	@NaturalId(mutable = true)
+	private String token;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "USER_DEVICE_ID", unique = true)
-    private UserDevice userDevice;
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@JoinColumn(name = "USER_LOGIN_ID", unique = true)
+	private UserLogin userLogin;
 
-    @Column(name = "REFRESH_COUNT")
-    private Long refreshCount;
+	@Column(name = "REFRESH_COUNT")
+	private Long refreshCount;
 
-    @Column(name = "EXPIRY_DT", nullable = false)
-    private Instant expiryDate;
+	@Column(name = "EXPIRY_DT", nullable = false)
+	private Instant expiryDate;
 
-    public RefreshToken() {
-    }
+	public RefreshToken() {
+	}
 
-    public RefreshToken(Long id, String token, UserDevice userDevice, Long refreshCount, Instant expiryDate) {
-        this.id = id;
-        this.token = token;
-        this.userDevice = userDevice;
-        this.refreshCount = refreshCount;
-        this.expiryDate = expiryDate;
-    }
+	public RefreshToken(Long id, String token, UserLogin userLogin, Long refreshCount, Instant expiryDate) {
+		this.id = id;
+		this.token = token;
+		this.userLogin = userLogin;
+		this.refreshCount = refreshCount;
+		this.expiryDate = expiryDate;
+	}
 
-    public void incrementRefreshCount() {
-        refreshCount = refreshCount + 1;
-    }
+	public void incrementRefreshCount() {
+		refreshCount = refreshCount + 1;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getToken() {
-        return token;
-    }
+	/**
+	 * @return the token
+	 */
+	public String getToken() {
+		return token;
+	}
 
-    public void setToken(String token) {
-        this.token = token;
-    }
+	/**
+	 * @param token the token to set
+	 */
+	public void setToken(String token) {
+		this.token = token;
+	}
 
-    public UserDevice getUserDevice() {
-        return userDevice;
-    }
+	/**
+	 * @return the userLogin
+	 */
+	public UserLogin getUserLogin() {
+		return userLogin;
+	}
 
-    public void setUserDevice(UserDevice userDevice) {
-        this.userDevice = userDevice;
-    }
+	/**
+	 * @param userLogin the userLogin to set
+	 */
+	public void setUserLogin(UserLogin userLogin) {
+		this.userLogin = userLogin;
+	}
 
-    public Instant getExpiryDate() {
-        return expiryDate;
-    }
+	/**
+	 * @return the refreshCount
+	 */
+	public Long getRefreshCount() {
+		return refreshCount;
+	}
 
-    public void setExpiryDate(Instant expiryDate) {
-        this.expiryDate = expiryDate;
-    }
+	/**
+	 * @param refreshCount the refreshCount to set
+	 */
+	public void setRefreshCount(Long refreshCount) {
+		this.refreshCount = refreshCount;
+	}
 
-    public Long getRefreshCount() {
-        return refreshCount;
-    }
+	/**
+	 * @return the expiryDate
+	 */
+	public Instant getExpiryDate() {
+		return expiryDate;
+	}
 
-    public void setRefreshCount(Long refreshCount) {
-        this.refreshCount = refreshCount;
-    }
+	/**
+	 * @param expiryDate the expiryDate to set
+	 */
+	public void setExpiryDate(Instant expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
+	@Override
+	public String toString() {
+		return "RefreshToken [id=" + id + ", token=" + token + ", userLogin=" + userLogin + ", refreshCount="
+				+ refreshCount + ", expiryDate=" + expiryDate + "]";
+	}
+
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    public String getToken() {
+//        return token;
+//    }
+//
+//    public void setToken(String token) {
+//        this.token = token;
+//    }
+//
+//    public UserLogin getUserDevice() {
+//        return userDevice;
+//    }
+//
+//    public void setUserDevice(UserLogin userDevice) {
+//        this.userDevice = userDevice;
+//    }
+//
+//    public Instant getExpiryDate() {
+//        return expiryDate;
+//    }
+//
+//    public void setExpiryDate(Instant expiryDate) {
+//        this.expiryDate = expiryDate;
+//    }
+//
+//    public Long getRefreshCount() {
+//        return refreshCount;
+//    }
+//
+//    public void setRefreshCount(Long refreshCount) {
+//        this.refreshCount = refreshCount;
+//    }
 }

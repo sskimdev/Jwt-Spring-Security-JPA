@@ -25,25 +25,24 @@ import java.util.Set;
 @Entity(name = "USER")
 public class User extends DateAudit {
 
-    @Id
-    @Column(name = "USER_ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", allocationSize = 1)
-    private Long id;
+	@Id
+	@Column(name = "USER_ID")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+	@SequenceGenerator(name = "user_seq", allocationSize = 1)
+	private Long id;
 
-    @NaturalId
-    @Column(name = "EMAIL", unique = true)
-    @NotBlank(message = "User email cannot be null")
-    private String email;
+	@NaturalId
+	@Column(name = "EMAIL", unique = true)
+	@NotBlank(message = "User email cannot be null")
+	private String email;
 
-    @Column(name = "USERNAME", unique = true)
-    @NullOrNotBlank(message = "Username can not be blank")
-    private String username;
+	@Column(name = "USERNAME", unique = true)
+	@NullOrNotBlank(message = "Username can not be blank")
+	private String username;
 
-    @Column(name = "PASSWORD")
-    @NotNull(message = "Password cannot be null")
-    private String password;
-
+	@Column(name = "PASSWORD")
+	@NotNull(message = "Password cannot be null")
+	private String password;
 
 //    @Column(name = "IS_ACTIVE", nullable = false)
 //    private Boolean active;
@@ -57,21 +56,20 @@ public class User extends DateAudit {
 //    @Column(name = "IS_EMAIL_VERIFIED", nullable = false)
 //    private Boolean isEmailVerified;
 
-    public User() {
-        super();
-    }
+	public User() {
+		super();
+	}
 
-    public User(User user) {
-        id = user.getId();
-        username = user.getUsername();
-        password = user.getPassword();
-        email = user.getEmail();
+	public User(User user) {
+		id = user.getId();
+		username = user.getUsername();
+		password = user.getPassword();
+		email = user.getEmail();
 //        active = user.getActive();
 //        roles = user.getRoles();
 //        isEmailVerified = user.getIsEmailVerified();
-    }
-    
-    
+	}
+
 	/**
 	 * @return the id
 	 */

@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 import com.bithumbhomework.member.entity.CustomUserDetails;
 //import com.bithumbhomework.member.entity.PasswordResetToken;
 import com.bithumbhomework.member.entity.User;
-import com.bithumbhomework.member.entity.UserDevice;
+import com.bithumbhomework.member.entity.UserLogin;
 import com.bithumbhomework.member.entity.payload.LoginRequest;
 //import com.bithumbhomework.member.entity.payload.PasswordResetLinkRequest;
 //import com.bithumbhomework.member.entity.payload.PasswordResetRequest;
@@ -33,11 +33,11 @@ import com.bithumbhomework.member.entity.payload.TokenRefreshRequest;
 //import com.bithumbhomework.member.entity.payload.UpdatePasswordRequest;
 //import com.bithumbhomework.member.entity.token.EmailVerificationToken;
 import com.bithumbhomework.member.entity.token.RefreshToken;
-import com.bithumbhomework.member.exception.PasswordResetLinkException;
+//import com.bithumbhomework.member.exception.PasswordResetLinkException;
 import com.bithumbhomework.member.exception.ResourceAlreadyInUseException;
 import com.bithumbhomework.member.exception.ResourceNotFoundException;
 import com.bithumbhomework.member.exception.TokenRefreshException;
-import com.bithumbhomework.member.exception.UpdatePasswordException;
+//import com.bithumbhomework.member.exception.UpdatePasswordException;
 import com.bithumbhomework.member.security.JwtTokenProvider;
 
 import java.util.Optional;
@@ -45,54 +45,65 @@ import java.util.Optional;
 @Service
 public class MemberAuthService {
 
-    private static final Logger logger = Logger.getLogger(MemberAuthService.class);
-    private final UserService userService;
-    private final JwtTokenProvider tokenProvider;
-    private final RefreshTokenService refreshTokenService;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
+	private static final Logger logger = Logger.getLogger(MemberAuthService.class);
+	private final UserService userService;
+	private final JwtTokenProvider tokenProvider;
+	private final RefreshTokenService refreshTokenService;
+	private final PasswordEncoder passwordEncoder;
+	private final AuthenticationManager authenticationManager;
 //    private final EmailVerificationTokenService emailVerificationTokenService;
-    private final UserDeviceService userDeviceService;
+	private final UserLoginService userLoginService;
 //    private final PasswordResetTokenService passwordResetTokenService;
 
-    @Autowired
-    public MemberAuthService(UserService userService, JwtTokenProvider tokenProvider, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, UserDeviceService userDeviceService, RefreshTokenService refreshTokenService) {
-        this.userService = userService;
-        this.tokenProvider = tokenProvider;
-        this.refreshTokenService = refreshTokenService;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
+	@Autowired
+	public MemberAuthService(UserService userService, JwtTokenProvider tokenProvider, PasswordEncoder passwordEncoder,
+			AuthenticationManager authenticationManager, UserLoginService userLoginService,
+			RefreshTokenService refreshTokenService) {
+		this.userService = userService;
+		this.tokenProvider = tokenProvider;
+		this.refreshTokenService = refreshTokenService;
+		this.passwordEncoder = passwordEncoder;
+		this.authenticationManager = authenticationManager;
 //        this.emailVerificationTokenService = emailVerificationTokenService;
-        this.userDeviceService = userDeviceService;
+		this.userLoginService = userLoginService;
 //        this.passwordResetTokenService = passwordResetTokenService;
-    }
+	}
 
-    /**
-     * Registers a new user in the database by performing a series of quick checks.
-     *
-     * @return A user object if successfully created
-     */
-    public Optional<User> joinUser(JoinRequest newRegistrationRequest) {
-        String newRegistrationRequestEmail = newRegistrationRequest.getEmail();
-        if (emailAlreadyExists(newRegistrationRequestEmail)) {
-            logger.error("Email already exists: " + newRegistrationRequestEmail);
-            throw new ResourceAlreadyInUseException("Email", "Address", newRegistrationRequestEmail);
-        }
-        logger.info("Trying to register new user [" + newRegistrationRequestEmail + "]");
-        User newUser = userService.createUser(newRegistrationRequest);
-        logger.info("Trying to register new user [" + newUser + "]");
-        User registeredNewUser = userService.save(newUser);
-        return Optional.ofNullable(registeredNewUser);
-    }
+	/**
+	 * Registers a new user in the database by performing a series of quick checks.
+	 *
+	 * @return A user object if successfully created
+	 */
+	public Optional<User> joinUser(JoinRequest newRegistrationRequest) {
+		String newRegistrationRequestEmail = newRegistrationRequest.getEmail();
+		if (emailAlreadyExists(newRegistrationRequestEmail)) {
+			logger.error("Email already exists: " + newRegistrationRequestEmail);
+			throw new ResourceAlreadyInUseException("Email", "Address", newRegistrationRequestEmail);
+		}
+		logger.info("Trying to register new user [" + newRegistrationRequestEmail + "]");
+		User newUser = userService.createUser(newRegistrationRequest);
+		logger.info("Trying to register new user [" + newUser + "]");
+		User registeredNewUser = userService.save(newUser);
+		return Optional.ofNullable(registeredNewUser);
+	}
 
-    /**
-     * Checks if the given email already exists in the database repository or not
-     *
-     * @return true if the email exists else false
-     */
-    public Boolean emailAlreadyExists(String email) {
-        return userService.existsByEmail(email);
-    }
+	/**
+	 * 가입하고자 하는 이메일로 이미 가입된 회원이 있는지 체크
+	 *
+	 * @return true if the email exists else false
+	 */
+	public Boolean emailAlreadyExists(String email) {
+		return userService.existsByEmail(email);
+	}
+
+	/**
+	 * 유효한 이메일 형식인지 체크
+	 *
+	 * @return true if the email exists else false
+	 */
+	public Boolean emailValidationCheck(String email) {
+		return userService.existsByEmail(email);
+	}
 //
 //    /**
 //     * Checks if the given email already exists in the database repository or not
@@ -103,13 +114,13 @@ public class MemberAuthService {
 //        return userService.existsByUsername(username);
 //    }
 
-    /**
-     * Authenticate user and log them in given a loginRequest
-     */
-    public Optional<Authentication> authenticateUser(LoginRequest loginRequest) {
-        return Optional.ofNullable(authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
-                loginRequest.getPassword())));
-    }
+	/**
+	 * Authenticate user and log them in given a loginRequest
+	 */
+	public Optional<Authentication> authenticateUser(LoginRequest loginRequest) {
+		return Optional.ofNullable(authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())));
+	}
 
 //    /**
 //     * Confirms the user verification based on the token expiry and mark the user as active.
@@ -149,12 +160,12 @@ public class MemberAuthService {
 //        return Optional.ofNullable(emailVerificationTokenService.updateExistingTokenWithNameAndExpiry(emailVerificationToken));
 //    }
 
-    /**
-     * Validates the password of the current logged in user with the given password
-     */
-    private Boolean currentPasswordMatches(User currentUser, String password) {
-        return passwordEncoder.matches(password, currentUser.getPassword());
-    }
+	/**
+	 * Validates the password of the current logged in user with the given password
+	 */
+	private Boolean currentPasswordMatches(User currentUser, String password) {
+		return passwordEncoder.matches(password, currentUser.getPassword());
+	}
 
 //    /**
 //     * Updates the password of the current logged in user
@@ -174,41 +185,40 @@ public class MemberAuthService {
 //        return Optional.of(currentUser);
 //    }
 
-    /**
-     * Generates a JWT token for the validated client
-     */
-    public String generateToken(CustomUserDetails customUserDetails) {
-        return tokenProvider.generateToken(customUserDetails);
-    }
+	/**
+	 * Generates a JWT token for the validated client
+	 */
+	public String generateToken(CustomUserDetails customUserDetails) {
+		return tokenProvider.generateToken(customUserDetails);
+	}
 
-    /**
-     * Generates a JWT token for the validated client by userId
-     */
-    private String generateTokenFromUserId(Long userId) {
-        return tokenProvider.generateTokenFromUserId(userId);
-    }
+	/**
+	 * Generates a JWT token for the validated client by userId
+	 */
+	private String generateTokenFromUserId(Long userId) {
+		return tokenProvider.generateTokenFromUserId(userId);
+	}
 
-    /**
-     * Creates and persists the refresh token for the user device. If device exists
-     * already, we don't care. Unused devices with expired tokens should be cleaned
-     * with a cron job. The generated token would be encapsulated within the jwt.
-     * Remove the existing refresh token as the old one should not remain valid.
-     */
-    public Optional<RefreshToken> createAndPersistRefreshTokenForDevice(Authentication authentication, LoginRequest loginRequest) {
-        User currentUser = (User) authentication.getPrincipal();
-        userDeviceService.findByUserId(currentUser.getId())
-                .map(UserDevice::getRefreshToken)
-                .map(RefreshToken::getId)
-                .ifPresent(refreshTokenService::deleteById);
+	/**
+	 * Creates and persists the refresh token for the user device. If device exists
+	 * already, we don't care. Unused devices with expired tokens should be cleaned
+	 * with a cron job. The generated token would be encapsulated within the jwt.
+	 * Remove the existing refresh token as the old one should not remain valid.
+	 */
+	public Optional<RefreshToken> createAndPersistRefreshTokenForDevice(Authentication authentication,
+			LoginRequest loginRequest) {
+		User currentUser = (User) authentication.getPrincipal();
+		userLoginService.findByUserId(currentUser.getId()).map(UserLogin::getRefreshToken).map(RefreshToken::getId)
+				.ifPresent(refreshTokenService::deleteById);
 
-        UserDevice userDevice = userDeviceService.createUserDevice(loginRequest.getDeviceInfo());
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken();
-        userDevice.setUser(currentUser);
-        userDevice.setRefreshToken(refreshToken);
-        refreshToken.setUserDevice(userDevice);
-        refreshToken = refreshTokenService.save(refreshToken);
-        return Optional.ofNullable(refreshToken);
-    }
+		UserLogin userLogin = userLoginService.createUserLogin(loginRequest.getLoginInfo());
+		RefreshToken refreshToken = refreshTokenService.createRefreshToken();
+		userLogin.setUser(currentUser);
+		userLogin.setRefreshToken(refreshToken);
+		refreshToken.setUserLogin(userLogin);
+		refreshToken = refreshTokenService.save(refreshToken);
+		return Optional.ofNullable(refreshToken);
+	}
 
 //    /**
 //     * Refresh the expired jwt token using a refresh token and device info. The
@@ -227,7 +237,7 @@ public class MemberAuthService {
 //                    return refreshToken;
 //                })
 //                .map(RefreshToken::getUserDevice)
-//                .map(UserDevice::getUser)
+//                .map(UserLogin::getUser)
 //                .map(User::getId).map(this::generateTokenFromUserId))
 //                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "Missing refresh token in database.Please login again"));
 //    }

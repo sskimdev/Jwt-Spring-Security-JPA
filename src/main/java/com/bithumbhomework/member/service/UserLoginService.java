@@ -16,56 +16,56 @@ package com.bithumbhomework.member.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bithumbhomework.member.entity.UserDevice;
-import com.bithumbhomework.member.entity.payload.DeviceInfo;
+import com.bithumbhomework.member.entity.UserLogin;
+import com.bithumbhomework.member.entity.payload.LoginInfo;
 //import com.bithumbhomework.member.entity.token.RefreshToken;
 import com.bithumbhomework.member.exception.TokenRefreshException;
-import com.bithumbhomework.member.repository.UserDeviceRepository;
+import com.bithumbhomework.member.repository.UserLoginRepository;
 
 import java.util.Optional;
 
 @Service
-public class UserDeviceService {
+public class UserLoginService {
 
-    private final UserDeviceRepository userDeviceRepository;
+	private final UserLoginRepository userLoginRepository;
 
-    @Autowired
-    public UserDeviceService(UserDeviceRepository userDeviceRepository) {
-        this.userDeviceRepository = userDeviceRepository;
-    }
+	@Autowired
+	public UserLoginService(UserLoginRepository userLoginRepository) {
+		this.userLoginRepository = userLoginRepository;
+	}
 
-    /**
-     * Find the user device info by user id
-     */
-    public Optional<UserDevice> findByUserId(Long userId) {
-        return userDeviceRepository.findByUserId(userId);
-    }
+	/**
+	 * Find the user login info by user id
+	 */
+	public Optional<UserLogin> findByUserId(Long userId) {
+		return userLoginRepository.findByUserId(userId);
+	}
 
 //    /**
 //     * Find the user device info by refresh token
 //     */
-//    public Optional<UserDevice> findByRefreshToken(RefreshToken refreshToken) {
-//        return userDeviceRepository.findByRefreshToken(refreshToken);
+//    public Optional<UserLogin> findByRefreshToken(RefreshToken refreshToken) {
+//        return userLoginRepository.findByRefreshToken(refreshToken);
 //    }
 
-    /**
-     * Creates a new user device and set the user to the current device
-     */
-    public UserDevice createUserDevice(DeviceInfo deviceInfo) {
-        UserDevice userDevice = new UserDevice();
-        userDevice.setDeviceId(deviceInfo.getDeviceId());
+	/**
+	 * Creates a new user login and set the user to the current user login
+	 */
+	public UserLogin createUserLogin(LoginInfo loginInfo) {
+		UserLogin userLogin = new UserLogin();
+		userLogin.setLoginId(loginInfo.getLoginId());
 //        userDevice.setDeviceType(deviceInfo.getDeviceType());
-        userDevice.setNotificationToken(deviceInfo.getNotificationToken());
-        userDevice.setRefreshActive(true);
-        return userDevice;
-    }
+		userLogin.setNotificationToken(loginInfo.getNotificationToken());
+		userLogin.setIsRefreshActive(true);
+		return userLogin;
+	}
 
 //    /**
 //     * Check whether the user device corresponding to the token has refresh enabled and
 //     * throw appropriate errors to the client
 //     */
 //    void verifyRefreshAvailability(RefreshToken refreshToken) {
-//        UserDevice userDevice = findByRefreshToken(refreshToken)
+//        UserLogin userDevice = findByRefreshToken(refreshToken)
 //                .orElseThrow(() -> new TokenRefreshException(refreshToken.getToken(), "No device found for the matching token. Please login again"));
 //
 //        if (!userDevice.getRefreshActive()) {

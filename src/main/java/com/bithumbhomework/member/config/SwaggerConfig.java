@@ -14,23 +14,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 public class SwaggerConfig {
 
-    @Bean
-    public Docket productApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.bithumbhomework.member"))
+	@Bean
+	public Docket productApi() {
+		return new Docket(DocumentationType.SWAGGER_2).select()
+				.apis(RequestHandlerSelectors.basePackage("com.bithumbhomework.member"))
 //                .paths(PathSelectors.regex("/api.*"))
-                .paths(PathSelectors.regex("/v1.*"))
-                .build()
-                .apiInfo(metaInfo());
-    }
+				.paths(PathSelectors.regex("/v1.*")).build().apiInfo(metaInfo());
+	}
 
-    private ApiInfo metaInfo() {
-        return new ApiInfoBuilder()
-                .description("회원 가입, 로그인 및 조회 서비스를 위한 Back-End API")
-                .title("Member Auth API")
-                .version("Released")
-                .build();
-    }
+	private ApiInfo metaInfo() {
+		return new ApiInfoBuilder().description("회원 가입, 로그인 및 조회 서비스를 위한 Back-End API").title("Member Auth API")
+				.version("Released").build();
+	}
 
 }

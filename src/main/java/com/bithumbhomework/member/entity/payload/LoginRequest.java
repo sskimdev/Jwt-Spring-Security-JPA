@@ -1,16 +1,3 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.bithumbhomework.member.entity.payload;
 
 import io.swagger.annotations.ApiModel;
@@ -24,63 +11,87 @@ import com.bithumbhomework.member.validation.annotation.NullOrNotBlank;
 @ApiModel(value = "Login Request", description = "The login request payload")
 public class LoginRequest {
 
-    @NullOrNotBlank(message = "Login Username can be null but not blank")
-    @ApiModelProperty(value = "Registered username", allowableValues = "NonEmpty String", allowEmptyValue = false)
-    private String username;
+//    @NullOrNotBlank(message = "Login Username can be null but not blank")
+//    @ApiModelProperty(value = "회원이름", allowableValues = "NonEmpty String", allowEmptyValue = false)
+//    private String username;
 
-    @NullOrNotBlank(message = "Login Email can be null but not blank")
-    @ApiModelProperty(value = "User registered email", required = true, allowableValues = "NonEmpty String")
-    private String email;
+	@NotNull(message = "Mandatory")
+	@ApiModelProperty(value = "User email", required = true, allowableValues = "NonEmpty String")
+	private String email;
 
-    @NotNull(message = "Login password cannot be blank")
-    @ApiModelProperty(value = "Valid user password", required = true, allowableValues = "NonEmpty String")
-    private String password;
+	@NotNull(message = "Mandatory")
+	@ApiModelProperty(value = "User password", required = true, allowableValues = "NonEmpty String")
+	private String password;
 
-    @Valid
-    @NotNull(message = "Device info cannot be null")
-    @ApiModelProperty(value = "Device info", required = true, dataType = "object", allowableValues = "A valid " +
-            "deviceInfo object")
-    private DeviceInfo deviceInfo;
+	@Valid
+	@NotNull(message = "Login info cannot be null")
+	@ApiModelProperty(value = "Loing info", required = true, dataType = "object", allowableValues = "A valid "
+			+ "loginInfo object")
+	private LoginInfo loginInfo;
 
-    public LoginRequest(String username, String email, String password, DeviceInfo deviceInfo) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.deviceInfo = deviceInfo;
-    }
+	public LoginRequest(String email, String password, LoginInfo loginInfo) {
+//        this.username = username;
+		this.email = email;
+		this.password = password;
+		this.loginInfo = loginInfo;
+	}
 
-    public LoginRequest() {
-    }
+	public LoginRequest() {
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	/**
+	 * @return the loginInfo
+	 */
+	public LoginInfo getLoginInfo() {
+		return loginInfo;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	/**
+	 * @param loginInfo the loginInfo to set
+	 */
+	public void setLoginInfo(LoginInfo loginInfo) {
+		this.loginInfo = loginInfo;
+	}
 
-    public DeviceInfo getDeviceInfo() {
-        return deviceInfo;
-    }
+	@Override
+	public String toString() {
+		return "LoginRequest [email=" + email + ", password=" + password + ", loginInfo=" + loginInfo + "]";
+	}
 
-    public void setDeviceInfo(DeviceInfo deviceInfo) {
-        this.deviceInfo = deviceInfo;
-    }
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+
 }
