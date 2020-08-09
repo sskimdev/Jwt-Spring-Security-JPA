@@ -49,21 +49,33 @@ public class MemberAuthService {
 	 *
 	 * @return A user object if successfully created
 	 */
-	public Optional<User> joinUser(JoinRequest newRegistrationRequest) {
-		String newRegistrationRequestEmail = newRegistrationRequest.getEmail();
-		if (emailAlreadyExists(newRegistrationRequestEmail)) {
-			logger.error("Email already exists: " + newRegistrationRequestEmail);
-			throw new ResourceAlreadyInUseException("Email", "Address", newRegistrationRequestEmail);
+	public Optional<User> joinUser(JoinRequest newJoinRequest) {
+		String newJoinRequestEmail = newJoinRequest.getEmail();
+		String newJoinRequestPassword = newJoinRequest.getPassword();
+		
+		//기존 이메일 존재여부 체크 
+		if (emailAlreadyExists(newJoinRequestEmail)) {
+			logger.error("Email already exists: " + newJoinRequestEmail);
+			throw new ResourceAlreadyInUseException("Email", "Address", newJoinRequestEmail);
 		}
-		if (!validateEmailFormat(newRegistrationRequestEmail)) {
-			logger.error("Email invalid: " + newRegistrationRequestEmail);
-			throw new InvalidFormatRequestException("Email", newRegistrationRequestEmail);
+		
+		//이메일 유효성 체크 
+		if (!validateEmailFormat(newJoinRequestEmail)) {
+			logger.error("Email invalid: " + newJoinRequestEmail);
+			throw new InvalidFormatRequestException("Email", newJoinRequestEmail);
 		}
-		logger.info("Trying to register new user [" + newRegistrationRequestEmail + "]");
-		User newUser = userService.createUser(newRegistrationRequest);
-		logger.info("Trying to register new user [" + newUser + "]");
-		User registeredNewUser = userService.save(newUser);
-		return Optional.ofNullable(registeredNewUser);
+		
+		//비밀번호 생성 규칙 체크 
+		if (!validatePasswordRule(newJoinRequestPassword)) {
+			logger.error("Password invalid: " + newJoinRequestPassword);
+			throw new InvalidFormatRequestException("Password", newJoinRequestPassword);
+		}
+		
+		logger.info("Trying to join new user [" + newJoinRequestEmail + "]");
+		User newUser = userService.createUser(newJoinRequest);
+		logger.info("Trying to join new user [" + newUser + "]");
+		User joinedNewUser = userService.save(newUser);
+		return Optional.ofNullable(joinedNewUser);
 	}
 
 	/**
