@@ -26,7 +26,13 @@
 
 * **Data Params**
 
-  <_If making a post request, what should the body payload look like? URL Params rules apply here too._>
+  ```json
+  {
+    "email": "email format ..",
+    "password": "string",
+    "username": "string"
+  }
+  ```
 
 * **Success Response:**
   
