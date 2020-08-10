@@ -28,8 +28,8 @@ public class UserLogin extends DateAudit {
 	@JoinColumn(name = "USER_ID", nullable = false)
 	private User user;
 
-	@Column(name = "NOTIFICATION_TOKEN")
-	private String notificationToken;
+//	@Column(name = "NOTIFICATION_TOKEN")
+//	private String notificationToken;
 
 	@Column(name = "LOGIN_ID", nullable = false)
 	private String loginId;
@@ -46,7 +46,7 @@ public class UserLogin extends DateAudit {
 	public UserLogin(Long id, User user, String notificationToken, String loginId, Boolean isRefreshActive) {
 		this.id = id;
 		this.user = user;
-		this.notificationToken = notificationToken;
+//		this.notificationToken = notificationToken;
 		this.loginId = loginId;
 		this.refreshToken = refreshToken;
 		this.isRefreshActive = isRefreshActive;
@@ -80,19 +80,19 @@ public class UserLogin extends DateAudit {
 		this.user = user;
 	}
 
-	/**
-	 * @return the notificationToken
-	 */
-	public String getNotificationToken() {
-		return notificationToken;
-	}
-
-	/**
-	 * @param notificationToken the notificationToken to set
-	 */
-	public void setNotificationToken(String notificationToken) {
-		this.notificationToken = notificationToken;
-	}
+//	/**
+//	 * @return the notificationToken
+//	 */
+//	public String getNotificationToken() {
+//		return notificationToken;
+//	}
+//
+//	/**
+//	 * @param notificationToken the notificationToken to set
+//	 */
+//	public void setNotificationToken(String notificationToken) {
+//		this.notificationToken = notificationToken;
+//	}
 
 	/**
 	 * @return the loginId
@@ -138,7 +138,7 @@ public class UserLogin extends DateAudit {
 
 	@Override
 	public String toString() {
-		return "UserLogin [id=" + id + ", user=" + user + ", notificationToken=" + notificationToken + ", loginId="
+		return "UserLogin [id=" + id + ", user=" + user + ", loginId="
 				+ loginId + ", refreshToken=" + refreshToken + ", isRefreshActive=" + isRefreshActive + "]";
 	}
 

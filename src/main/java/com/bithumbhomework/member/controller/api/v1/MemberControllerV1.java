@@ -1,4 +1,4 @@
-package com.bithumbhomework.member.controller;
+package com.bithumbhomework.member.controller.api.v1;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,26 +36,24 @@ import java.time.Instant;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("${rest.api.ver}/member")
-@Api(value = "Authorization Rest API", description = "회원가입, 로그인, 회원 조회 API")
+@RequestMapping("/v1/member")
+@Api(value = "Member Rest API", description = "회원가입, 로그인, 회원 조회 API")
 
-public class MemberController {
+public class MemberControllerV1 {
 
-	private static final Logger logger = Logger.getLogger(MemberController.class);
+	private static final Logger logger = Logger.getLogger(MemberControllerV1.class);
 	private final MemberAuthService memberService;
 	private final UserService userService;
 	private final UserLoginService userLoginService;
 	private final JwtTokenProvider tokenProvider;
-//	private final ApplicationEventPublisher applicationEventPublisher;
 
 	@Autowired
-	public MemberController(MemberAuthService memberService, UserService userService, UserLoginService userLoginService,
+	public MemberControllerV1(MemberAuthService memberService, UserService userService, UserLoginService userLoginService,
 			JwtTokenProvider tokenProvider) {
 		this.memberService = memberService;
 		this.userService = userService;
 		this.userLoginService = userLoginService;
 		this.tokenProvider = tokenProvider;
-//		this.applicationEventPublisher = applicationEventPublisher;
 	}
 
 	/**
@@ -116,10 +114,10 @@ public class MemberController {
 		
 		return userService.findById(currentUser.getId()).map(_user -> {
 			Instant _lastLoginedAt  = userLoginService.findByUserId(_user.getId()).map(UserLogin::getUpdatedAt).orElseThrow(
-					() -> new UsernameNotFoundException("Couldn't find a matching user id in the database for " + _user.getId()));;
+					() -> new UsernameNotFoundException("로그인 정보를 찾을 수가 없습니다. " + _user.getId()));;	//AuthenticationException
 			return ResponseEntity.ok(new MemberInfoResponse(_user.getUsername(), _user.getEmail(), _lastLoginedAt));
 		}).orElseThrow(
-				() -> new UserLoginException("Couldn't find a matching user id in the database for " + currentUser.getId()));
+				() -> new UsernameNotFoundException("사용자 정보를 찾을 수가 없습니다. " + currentUser.getId()));	//AuthenticationException
 	}
 
 }
