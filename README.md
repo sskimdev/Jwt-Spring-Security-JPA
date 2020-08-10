@@ -22,6 +22,58 @@ API 문서의 버전관리 및 현행화가 제대로 이루어지지 않는 이
 ![image](https://user-images.githubusercontent.com/12872673/45046897-24ded880-b095-11e8-8930-7b678e2843bb.png)
 
 
+Swagger 작성예시)
+```sql
+package com.bithumbhomework.member.controller.api.v1;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+@RestController
+@RequestMapping("/v1/member")
+@Api(value = "Member Rest API", description = "회원가입, 로그인, 회원 조회 API")
+
+public class MemberControllerV1 {
+
+	private static final Logger logger = Logger.getLogger(MemberControllerV1.class);
+	private final MemberAuthService memberService;
+	private final UserService userService;
+	private final UserLoginService userLoginService;
+	private final JwtTokenProvider tokenProvider;
+
+	@Autowired
+	public MemberControllerV1(MemberAuthService memberService, UserService userService, UserLoginService userLoginService,
+			JwtTokenProvider tokenProvider) {
+		this.memberService = memberService;
+		this.userService = userService;
+		this.userLoginService = userLoginService;
+		this.tokenProvider = tokenProvider;
+	}
+
+	/**
+	 * 1. 회원가입 URI는 다음과 같습니다. : /v1/member/join 
+	 * 2. 회원가입 시 필요한 정보는 ID, 비밀번호, 사용자이름 입니다. 
+	 * 3. ID는 반드시 email 형식이어야 합니다. 
+	 * 4. 비밀번호는 영어 대문자, 영어 소문자, 숫자, 특수문자 중 3종류 이상으로 12자리 이상의 문자열로 생성해야 합니다. 
+	 * 5. 비밀번호는 서버에 저장될 때에는 반드시 단방향 해시 처리가 되어야 합니다.
+	 */
+	@PostMapping("/join")
+	@ApiOperation(value = "회원 가입")
+	public ResponseEntity joinUser(
+			@ApiParam(value = "The JoinRequest payload") @Valid @RequestBody JoinRequest joinRequest) {
+
+		return memberService.joinUser(joinRequest).map(user -> {
+			logger.info("joinUser ==> " + user);
+			return ResponseEntity.ok(new ApiResponse(true, "회원가입이 성공하였습니다."));
+		}).orElseThrow(() -> new UserJoinException(joinRequest.getEmail(), "Missing user object in database"));
+	}
+}
+
+```
+
+
+
 ---
 
 ## 환경설정
