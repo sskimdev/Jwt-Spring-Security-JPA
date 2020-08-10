@@ -36,35 +36,52 @@
 
 * **Success Response:**
   
-  <_What should the status code be on success and is there any returned data? This is useful when people need to to know what their callbacks should expect!_>
+  가입이 성공한 경우, sucess 필드에 true값을 전달한다.
 
-  * **Code:** 406 <br />
+  * **Code:** 200 <br />
     **Content:** 
     ```json
     {
-      "timestamp": "2020-08-10T16:13:57.795+00:00",
-      "status": 406,
-      "error": "Not Acceptable",
-      "message": "[Error] 형식이 일치하지 않습니다. Password = 'string'",
-      "path": "/v1/member/join"
+      "data": "회원가입이 성공하였습니다.",
+      "success": true,
+      "timestamp": "2020-08-10T16:31:11.690Z"
     }
     ```
  
 * **Error Response:**
 
-  <_Most endpoints will have many ways they can fail. From unauthorized access, to wrongful parameters etc. All of those should be liste d here. It might seem repetitive, but it helps prevent assumptions from being made where they should be._>
+  이메일 형식이 아닌경우, 패스워드 생성규칙이 맞이 않는 경우 등등...
 
-  * **Code:** 401 UNAUTHORIZED <br />
-    **Content:** `{ error : "Log in" }`
+  * **Code:** 406 NOT_ACCEPTABLE <br />
+    **Content:**
+    ```json
+    {
+      "timestamp": "2020-08-10T16:13:57.795+00:00",
+      "status": 406,
+      "error": "Not Acceptable",
+      "message": "[Error] 유효하지 않은 값입니다... Password = 'password1'",
+      "path": "/v1/member/join"
+    }
+    ```
 
   OR
 
-  * **Code:** 422 UNPROCESSABLE ENTRY <br />
-    **Content:** `{ error : "Email Invalid" }`
+  * **Code:** 409 CONFLICT <br />
+    **Content:** 
+    ```json
+    {
+      "data": "[Error] 이미 존재하는 값입니다. Email = 'aaa@korea.com'",
+      "success": false,
+      "timestamp": "2020-08-10T16:33:38.237Z",
+      "cause": "com.bithumbhomework.member.exception.ResourceAlreadyInUseException"
+    }
+    ```
 
 * **Sample Call:**
 
-  <_Just a sample call to your endpoint in a runnable format ($.ajax call or a curl request) - this makes life easier and more predictable._> 
+  ```bash
+  curl -X POST "http://localhost:8000/v1/member/join" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"email\": \"aaa@korea.com\", \"password\": \"aaa1234567890AAA\"}"
+    ```
 
 * **Notes:**
 
