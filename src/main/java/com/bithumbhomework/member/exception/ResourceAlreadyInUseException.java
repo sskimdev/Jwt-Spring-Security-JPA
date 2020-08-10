@@ -15,7 +15,7 @@ public class ResourceAlreadyInUseException extends RuntimeException {
 	private final transient Object fieldValue;
 
 	public ResourceAlreadyInUseException(String resourceName, String fieldName, Object fieldValue) {
-		super(String.format("[Error] 이미 존재하는 값입니다. %s = '%s'", resourceName, fieldValue));
+		super(String.format("[Error] 이미 존재하는 값입니다. %s = '%s'", fieldName, fieldValue));
 		this.resourceName = resourceName;
 		this.fieldName = fieldName;
 		this.fieldValue = fieldValue;

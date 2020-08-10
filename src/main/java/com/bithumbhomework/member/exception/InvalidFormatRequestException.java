@@ -11,13 +11,27 @@ public class InvalidFormatRequestException extends RuntimeException {
 	 * 
 	 */
 	private static final long serialVersionUID = -4738113941145864852L;
-//	private final String fieldType;
-//	private final transient Object fieldValue;
-//	private final String message;
+	
+	private final String resourceName;
+	private final String fieldName;
+	private final transient Object fieldValue;
 
-	public InvalidFormatRequestException(String fieldType, Object fieldValue) {
-		super(String.format("[Error] 형식이 일치하지 않습니다. %s = '%s'", fieldType, fieldValue));
-//		this.fieldType = fieldType;
-//		this.fieldValue = fieldValue;
+	public InvalidFormatRequestException(String resourceName, String fieldName, Object fieldValue) {
+		super(String.format("[Error] 유효하지 않은 값입니다... %s = '%s'", fieldName, fieldValue));
+		this.resourceName = resourceName;
+		this.fieldName = fieldName;
+		this.fieldValue = fieldValue;
+	}
+
+	public String getResourceName() {
+		return resourceName;
+	}
+
+	public String getFieldName() {
+		return fieldName;
+	}
+
+	public Object getFieldValue() {
+		return fieldValue;
 	}
 }

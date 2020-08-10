@@ -20,16 +20,14 @@ import org.springframework.web.context.request.WebRequest;
 import com.bithumbhomework.member.entity.payload.ApiResponse;
 import com.bithumbhomework.member.exception.AppException;
 import com.bithumbhomework.member.exception.BadRequestException;
+import com.bithumbhomework.member.exception.InvalidFormatRequestException;
 import com.bithumbhomework.member.exception.InvalidTokenRequestException;
-//import com.bithumbhomework.member.exception.MailSendException;
-//import com.bithumbhomework.member.exception.PasswordResetException;
-//import com.bithumbhomework.member.exception.PasswordResetLinkException;
 import com.bithumbhomework.member.exception.ResourceAlreadyInUseException;
+
 import com.bithumbhomework.member.exception.ResourceNotFoundException;
 import com.bithumbhomework.member.exception.TokenRefreshException;
-//import com.bithumbhomework.member.exception.UpdatePasswordException;
+import com.bithumbhomework.member.exception.UnauthorizedException;
 import com.bithumbhomework.member.exception.UserLoginException;
-//import com.bithumbhomework.member.exception.UserLogoutException;
 import com.bithumbhomework.member.exception.UserJoinException;
 
 import java.util.List;
@@ -97,11 +95,25 @@ public class AuthControllerAdvice {
 	public ApiResponse handleAppException(AppException ex, WebRequest request) {
 		return new ApiResponse(false, ex.getMessage(), ex.getClass().getName(), resolvePathFromWebRequest(request));
 	}
+	
+	@ExceptionHandler(value = UnauthorizedException.class)
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ResponseBody
+	public ApiResponse handleUnauthorizedException(UnauthorizedException ex, WebRequest request) {
+		return new ApiResponse(false, ex.getMessage(), ex.getClass().getName(), resolvePathFromWebRequest(request));
+	}
 
 	@ExceptionHandler(value = ResourceAlreadyInUseException.class)
 	@ResponseStatus(HttpStatus.CONFLICT)
 	@ResponseBody
 	public ApiResponse handleResourceAlreadyInUseException(ResourceAlreadyInUseException ex, WebRequest request) {
+		return new ApiResponse(false, ex.getMessage(), ex.getClass().getName(), resolvePathFromWebRequest(request));
+	}
+	
+	@ExceptionHandler(value = InvalidFormatRequestException.class)
+	@ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+	@ResponseBody
+	public ApiResponse handleInvalidFormatRequestException(InvalidFormatRequestException ex, WebRequest request) {
 		return new ApiResponse(false, ex.getMessage(), ex.getClass().getName(), resolvePathFromWebRequest(request));
 	}
 
@@ -148,7 +160,8 @@ public class AuthControllerAdvice {
 	}
 
 	@ExceptionHandler(value = InvalidTokenRequestException.class)
-	@ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+//	@ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	@ResponseBody
 	public ApiResponse handleInvalidTokenException(InvalidTokenRequestException ex, WebRequest request) {
 		return new ApiResponse(false, ex.getMessage(), ex.getClass().getName(), resolvePathFromWebRequest(request));

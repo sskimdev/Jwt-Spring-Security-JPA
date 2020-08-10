@@ -15,7 +15,7 @@ public class UserJoinException extends RuntimeException {
 //	private final String message;
 
 	public UserJoinException(String user, String message) {
-		super(String.format("Failed to register User[%s] : '%s'", user, message));
+		super(String.format("회원가입 실패[%s] : '%s'", user, message));
 //		this.user = user;
 //		this.message = message;
 	}

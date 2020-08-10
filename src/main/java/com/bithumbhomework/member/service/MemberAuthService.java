@@ -56,25 +56,27 @@ public class MemberAuthService {
 		//기존 이메일 존재여부 체크 
 		if (emailAlreadyExists(newJoinRequestEmail)) {
 			logger.error("Email already exists: " + newJoinRequestEmail);
-			throw new ResourceAlreadyInUseException("Email", "Address", newJoinRequestEmail);
+			throw new ResourceAlreadyInUseException("", "Email", newJoinRequestEmail);
 		}
 		
 		//이메일 유효성 체크 
 		if (!validateEmailFormat(newJoinRequestEmail)) {
 			logger.error("Email invalid: " + newJoinRequestEmail);
-			throw new InvalidFormatRequestException("Email", newJoinRequestEmail);
+			throw new InvalidFormatRequestException("", "Email", newJoinRequestEmail);
 		}
 		
 		//비밀번호 생성 규칙 체크 
 		if (!validatePasswordRule(newJoinRequestPassword)) {
 			logger.error("Password invalid: " + newJoinRequestPassword);
-			throw new InvalidFormatRequestException("Password", newJoinRequestPassword);
+			throw new InvalidFormatRequestException("", "Password", newJoinRequestPassword);
 		}
 		
 		logger.info("Trying to join new user [" + newJoinRequestEmail + "]");
 		User newUser = userService.createUser(newJoinRequest);
+		
 		logger.info("Trying to join new user [" + newUser + "]");
 		User joinedNewUser = userService.save(newUser);
+		
 		return Optional.ofNullable(joinedNewUser);
 	}
 

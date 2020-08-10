@@ -24,6 +24,7 @@ import com.bithumbhomework.member.entity.payload.LoginRequest;
 import com.bithumbhomework.member.entity.payload.MemberInfoResponse;
 import com.bithumbhomework.member.entity.payload.JoinRequest;
 import com.bithumbhomework.member.exception.UserLoginException;
+import com.bithumbhomework.member.exception.UnauthorizedException;
 import com.bithumbhomework.member.exception.UserJoinException;
 import com.bithumbhomework.member.security.JwtTokenProvider;
 import com.bithumbhomework.member.service.MemberAuthService;
@@ -109,15 +110,22 @@ public class MemberControllerV1 {
 	 */
 	@GetMapping("/info")
 	@ApiOperation(value = "회원정보 조회")
-	public ResponseEntity getUserProfile(@CurrentUser CustomUserDetails currentUser) {
-		logger.info(currentUser.getEmail());
+	public ResponseEntity getUserProfile(@CurrentUser CustomUserDetails currentUser) throws UnauthorizedException {
+		
+		if(currentUser==null) {
+            throw new UnauthorizedException();
+        }
+		
+//		if (currentUser != null || currentUser.getEmail() != null) {
+//			logger.info(currentUser.getEmail());
+//		}
 		
 		return userService.findById(currentUser.getId()).map(_user -> {
 			Instant _lastLoginedAt  = userLoginService.findByUserId(_user.getId()).map(UserLogin::getUpdatedAt).orElseThrow(
-					() -> new UsernameNotFoundException("로그인 정보를 찾을 수가 없습니다. " + _user.getId()));;	//AuthenticationException
+					() -> new UnauthorizedException());
 			return ResponseEntity.ok(new MemberInfoResponse(_user.getUsername(), _user.getEmail(), _lastLoginedAt));
 		}).orElseThrow(
-				() -> new UsernameNotFoundException("사용자 정보를 찾을 수가 없습니다. " + currentUser.getId()));	//AuthenticationException
+				() -> new UnauthorizedException());
 	}
 
 }
