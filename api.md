@@ -28,9 +28,9 @@
 
   ```json
   {
-    "email": "email format ..",
-    "password": "string",
-    "username": "string"
+    "email": "aaa@bbb.com",
+    "password": "password1",
+    "username": "홍길동"
   }
   ```
 
@@ -38,8 +38,17 @@
   
   <_What should the status code be on success and is there any returned data? This is useful when people need to to know what their callbacks should expect!_>
 
-  * **Code:** 200 <br />
-    **Content:** `{ id : 12 }`
+  * **Code:** 406 <br />
+    **Content:** 
+    ```json
+    {
+      "timestamp": "2020-08-10T16:13:57.795+00:00",
+      "status": 406,
+      "error": "Not Acceptable",
+      "message": "[Error] 형식이 일치하지 않습니다. Password = 'string'",
+      "path": "/v1/member/join"
+    }
+    ```
  
 * **Error Response:**
 
