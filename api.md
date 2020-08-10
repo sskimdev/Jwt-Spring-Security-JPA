@@ -189,7 +189,7 @@
     **Content:** 
     ```json
     {
-        "username": null,
+        "username": "홍길동",
         "email": "aaa@korea.com",
         "lastLoginedAt": "2020-08-10T17:12:23Z"
     }
