@@ -1,17 +1,16 @@
 
 **회원가입**
 ----
-  <_Additional information about your API call. Try to use verbs that match both request type (fetching vs modifying) and plurality (one vs multiple)._>
+  이름, 이메일, 패스워드를 이용한 회원가입
+  
 
 * **URL**
 
-  <_The URL Structure (path only, no root url)_>
+  /v1/member/join
 
 * **Method:**
   
-  <_The request type_>
-
-  `GET` | `POST` | `DELETE` | `PUT`
+  `POST`
   
 *  **URL Params**
 
