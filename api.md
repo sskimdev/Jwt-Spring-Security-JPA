@@ -215,8 +215,7 @@
 * **Sample Call:**
 
   ```bash
-  curl --location --request GET 'http://localhost:8000/v1/member/info' \\
---header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTk3MDc5NTQzLCJleHAiOjE1OTcwODA0NDN9.qvn1K-lES6MPQYmXwaboY4iqpwdLkoW_pXub0gPsZdiokTfRZIB8uSfl6AW3aB4X0Tu0WnQZX_zShjxcPOvDdw1'
+  curl --location --request GET 'http://localhost:8000/v1/member/info' --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTk3MDc5NTQzLCJleHAiOjE1OTcwODA0NDN9.qvn1K-lES6MPQYmXwaboY4iqpwdLkoW_pXub0gPsZdiokTfRZIB8uSfl6AW3aB4X0Tu0WnQZX_zShjxcPOvDdw1'
     ```
 
 * **Notes:**
