@@ -1,55 +1,101 @@
-## Jwt-Spring-Security-JPA ##
+## 빗썸코리아 회원인증 과제 API ##
 
-![Travis (.org)](https://img.shields.io/travis/isopropylcyanide/Jwt-Spring-Security-JPA)
-![GitHub](https://img.shields.io/github/license/isopropylcyanide/Jwt-Spring-Security-JPA?color=blue)
+#### 회원 가입, 로그인 및 조회 서비스를 위한 Back-End API.
 
-#### A demo project explaining the backend authentication using JWT (Json Web Token) authentication using Spring Security &amp; MySQL JPA.
-There's support for the following features:
+주요특징:
+* JWT (Json Web Token) authentication 과  Spring Security를 이용한 Backend API 인증
+* JPA (Java Persistence API) 를 이용하여 database 테이블을 Entity class로 다양한 DBMS에 대응. 그리고, Entity를 이용한 DB 테이블 자동 생성.
+* Swagger를 이용한 API Docs 자동화
 
-* Conventional email/username based registration with admin support
-* Conventional Login using Spring Security and generation of JWT token
-* Multiple device login and logout support
-* Support for expiration bases email verification. Mail is sent upon registration. 
-* Resend the email confirmation email if old one expires
-* Support for password updation once logged in
-* Support for forgot-password functionality with password reset token sent to mail.
-* Supports admin protected urls leveraging Spring security
-* API to refresh JWT tokens once the temporary JWT expires. 
-* API to check availability of username/email during registration.
+지원기능들:
+* 이메일, 패스워드, 이름을 기준으로 한 회원가입
+* Spring Security와 JWT token 생성을 이용한 로그인
+* JWT token을 이용한 회원정보(이메일/이름/직전로그인시간) 조회
 
 ![](https://cdn-images-1.medium.com/max/1334/1*7T41R0dSLEzssIXPHpvimQ.png)
 
 ---
 
-## Swagger Docs ##
-The project has been configured with a basic Swagger docket that exposes the commonly used API's along with the expected params.
+## Swagger를 이용한 API Docs 자동화 ##
+API 문서의 버전관리 및 현행화가 제대로 이루어지지 않는 이슈를 최소화하고 프론트엔드 개발자와의 원활한 커뮤니케이션을 위해 목적으로 Swagger를 활용.
+* 소스코드에 적용된 API Spec을 추출하여 웹페이지로 제공함으로써 정확한 Request와 Response를 정확하고 신속하게 파악할 수 있음. 
 ![image](https://user-images.githubusercontent.com/12872673/45046897-24ded880-b095-11e8-8930-7b678e2843bb.png)
 
 
 ---
 
-## JWT ##
-JSON Web Tokens are an open, industry standard RFC 7519 method for representing claims securely between two parties.
+## 환경설정
+# Database
+테이블 생성
+```sql
+-- member_db.refresh_token_seq definition
+
+CREATE TABLE `refresh_token_seq` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-## Exception Handling ##
-The app throws custom exceptions wherever necessary which are captured through a controller advice. It then returns the appropriate error response to the caller
-* AppException
-* BadRequestException
-* ResourceAlreadyInUseException
-* ResourceNotFoundException
-* UserLoginException
-* UserRegistrationException
-* MethodArgumentNotValidException
-* UserLogoutException
-* TokenRefreshException
-* UpdatePasswordException
-* PasswordResetException
-* PasswordResetLinkException
+-- member_db.`user` definition
 
-Moreover, entities are validated using JSR-303 Validation constraints. 
+CREATE TABLE `user` (
+  `user_id` bigint(20) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `UK_ob8kqyqqgmefl0aco34akdtpe` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
----
+
+-- member_db.user_login_seq definition
+
+CREATE TABLE `user_login_seq` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- member_db.user_seq definition
+
+CREATE TABLE `user_seq` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- member_db.user_login definition
+
+CREATE TABLE `user_login` (
+  `user_login_id` bigint(20) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `is_refresh_active` bit(1) DEFAULT NULL,
+  `login_id` varchar(255) NOT NULL,
+  `notification_token` varchar(255) DEFAULT NULL,
+  `user_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`user_login_id`),
+  KEY `FKpuv1tgwbg2fgmw93xktb9rjs5` (`user_id`),
+  CONSTRAINT `FKpuv1tgwbg2fgmw93xktb9rjs5` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- member_db.refresh_token definition
+
+CREATE TABLE `refresh_token` (
+  `token_id` bigint(20) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `expiry_dt` datetime NOT NULL,
+  `refresh_count` bigint(20) DEFAULT NULL,
+  `token` varchar(255) NOT NULL,
+  `user_login_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`token_id`),
+  UNIQUE KEY `UK_7xw3t1qjql8we1oluftl4flv4` (`user_login_id`),
+  UNIQUE KEY `UK_r4k4edos30bx9neoq81mdvwph` (`token`),
+  CONSTRAINT `FK1afld87meo1qf4lhwge9iyqc9` FOREIGN KEY (`user_login_id`) REFERENCES `user_login` (`user_login_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
 
 ## Steps to Setup the Spring Boot Back end app
 
@@ -86,16 +132,6 @@ Moreover, entities are validated using JSR-303 Validation constraints.
 
 	The server will start on port 9004. Token default expiration is 600000ms i.e 10 minutes.
 	```
-5. **Add the default Roles**
-	
-	The spring boot app uses role based authorization powered by spring security. Please execute the following sql queries in the database to insert the `USER` and `ADMIN` roles.
-
-	```sql
-    INSERT INTO ROLE (ROLE_NAME) VALUES ('ROLE_USER');
-    INSERT INTO ROLE (ROLE_NAME) VALUES ('ROLE_ADMIN');
-	```
-
-	Any new user who signs up to the app is assigned the `ROLE_USER` by default.
 
 ---
 
