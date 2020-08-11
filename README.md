@@ -16,13 +16,51 @@
 
 ---
 
+# 환경설정
+## application.properties 설정
+	+ 경로 `src/main/resources/application.properties`
+```xml
+#Server properties
+server.port=8000
+
+rest.api.ver=/v1
+
+#Datasource
+spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/member_db?serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=1234
+spring.datasource.testWhileIdle=true
+spring.datasource.validationQuery=SELECT 1
+
+#Spring JPA
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+spring.datasource.initialization-mode=always
+spring.jpa.properties.hibernate.format_sql=true
+logging.level.org.hibernate.SQL=DEBUG
+
+#JWT
+app.jwt.header=Authorization
+app.jwt.header.prefix=Bearer 
+app.jwt.secret=mySecret
+app.jwt.expiration=900000
+
+#Jackson properties
+spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS=false
+spring.jackson.time-zone=UTC
+
+#Token properties
+app.token.refresh.duration=2592000000
+```
+
+---
+
 ## Swagger를 이용한 API Docs 자동화 ##
 API 문서의 버전관리 및 현행화가 제대로 이루어지지 않는 이슈를 최소화하고 프론트엔드 개발자와의 원활한 커뮤니케이션을 위해 목적으로 Swagger를 활용.
 * 소스코드에 적용된 API Spec을 추출하여 웹페이지로 제공함으로써 정확한 Request와 Response를 정확하고 신속하게 파악할 수 있음. 
-![image](https://user-images.githubusercontent.com/12872673/45046897-24ded880-b095-11e8-8930-7b678e2843bb.png)
 
-
-Swagger 작성예시)
+Swagger 소스코드내 적용 예시)
 ```sql
 package com.bithumbhomework.member.controller.api.v1;
 
@@ -69,16 +107,31 @@ public class MemberControllerV1 {
 		}).orElseThrow(() -> new UserJoinException(joinRequest.getEmail(), "Missing user object in database"));
 	}
 }
-
 ```
 
+Swagger UI : 
+* http://localhost:8000/swagger-ui.html
+![image](https://user-images.githubusercontent.com/15791988/89800836-43e02200-db6a-11ea-941f-15dfaf48f916.png)
+![image](https://user-images.githubusercontent.com/15791988/89800932-65d9a480-db6a-11ea-8fc3-1db596008c40.png)
+![image](https://user-images.githubusercontent.com/15791988/89800952-6c681c00-db6a-11ea-94ff-28e3be7f1087.png)
+![image](https://user-images.githubusercontent.com/15791988/89801012-8570cd00-db6a-11ea-90ad-a14db2c41584.png)
 
+
+Postman등의 REST API 클라이언트 툴을 활용한 API 기능 검증:
+![image](https://user-images.githubusercontent.com/15791988/89816203-16eb3980-db81-11ea-9bbc-8cf67728e6f8.png)
 
 ---
 
-## 환경설정
-# Database
-테이블 생성
+
+## Database
+* Entity class를 작성하여 JPA를 통해 데이터베이스 테이블이 자동으로 생성되도록 작성. (CreateAndUpdate)
+* 모든 테이블과 컬럼들을 Entity 오브젝트로 관리함으로써 Text query문을 이용할때의 문제점(테이블, 컬럼들이 소스코드와 현행화와 검증이 안되는 이슈)들을 해소.
+* JPA entity를 통해 데이터베이스에 자동으로 생성된 테이블을 이용하여 쉽게 테이블생성 query, 테이블명세서, ERD를 생성하고 관리할 수 있음.
+
+Entity classes
+![image](https://user-images.githubusercontent.com/15791988/89894892-d093ea00-dc15-11ea-899c-d110b038f74b.png)
+
+테이블 생성 Scripts
 ```sql
 -- member_db.refresh_token_seq definition
 
@@ -149,86 +202,15 @@ CREATE TABLE `refresh_token` (
 ```
 
 
-## Steps to Setup the Spring Boot Back end app
-
-1. **Clone the application**
-
-	```bash
-	git clone https://github.com/isopropylcyanide/Jwt-Spring-Security-JPA.git
-	cd AuthApp
-	```
-
-2. **Create MySQL database**
-
-	```bash
-	create database login_db
-	```
-
-3. **Change MySQL username and password as per your MySQL installation**
-
-	+ open `src/main/resources/application.properties` file.
-
-	+ change `spring.datasource.username` and `spring.datasource.password` properties as per your mysql installation
-	
-	+ open `src/main/resources/mail.properties` file.
-
-	+ change `spring.mail.username` and `spring.mail.password` properties as per your mail installation
-
-4. **Run the app**
-
-	You can run the spring boot app by typing the following command -
-
-	```bash
-	mvn spring-boot:run
-	```
-
-	The server will start on port 9004. Token default expiration is 600000ms i.e 10 minutes.
-	```
-
----
-
-### Contribution ###
-* Please fork the project and adapt it to your use case.
-* Submit a pull request.
-* The project is in a nascent stage. As such any issues you find should be reported in the issues section.
-
----
-## Demo Screens ##
-
-1. **Registering a user**
----
-![image](https://user-images.githubusercontent.com/12872673/44460909-841c0200-a62c-11e8-96b6-996b8de6b2b8.png)
+ER Diagream
+![image](https://user-images.githubusercontent.com/15791988/89800540-e77d0280-db69-11ea-9b2d-aea72a334414.png)
 
 
-2. **Logging in a valid user**
----
-![image](https://user-images.githubusercontent.com/12872673/45047478-c155aa80-b096-11e8-96e8-d7872a92ee03.png)
+테이블 명세서
+![image](https://user-images.githubusercontent.com/15791988/89800659-0a0f1b80-db6a-11ea-805d-8fa8e8c5cd50.png)
 
-3. **Logging in an invalid user**
----
-![image](https://user-images.githubusercontent.com/12872673/44461046-03a9d100-a62d-11e8-8073-fb6b32cec3de.png)
 
-3. **Using the token in request header & accessing resource**
----
-![image](https://user-images.githubusercontent.com/12872673/44461090-2e942500-a62d-11e8-8f05-8ecd1d2828e3.png)
 
-4. **Accessing admin resource with invalid permissions/token**
----
-![image](https://user-images.githubusercontent.com/12872673/44461159-68fdc200-a62d-11e8-9a8c-95a9c84d52cd.png)
-
-5. **Logging out the user device**
----
-![image](https://user-images.githubusercontent.com/12872673/45047550-f3ffa300-b096-11e8-8520-3eae03b6ef78.png)
-
-6. **Resetting the password**
----
-![image](https://user-images.githubusercontent.com/12872673/45047624-3628e480-b097-11e8-944f-c88b1cd0c231.png)
-
-7. **Refreshing the authentication token**
----
-![image](https://user-images.githubusercontent.com/12872673/45047676-5bb5ee00-b097-11e8-84d4-2dbbe1489157.png)
-
-8. **Confirming the user email verification token**
----
-![image](https://user-images.githubusercontent.com/12872673/45047715-76886280-b097-11e8-9ea6-e0c649eb6cbd.png)
+## JWT tokens and security using username, password
+![image](https://user-images.githubusercontent.com/15791988/89894531-2f0c9880-dc15-11ea-9520-eea2980c65c4.png)
 
