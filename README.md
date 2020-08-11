@@ -12,8 +12,6 @@
 * Spring Security와 JWT token 생성을 이용한 로그인
 * JWT token을 이용한 회원정보(이메일/이름/직전로그인시간) 조회
 
-![](https://cdn-images-1.medium.com/max/1334/1*7T41R0dSLEzssIXPHpvimQ.png)
-
 ---
 
 # 환경설정
