@@ -4,13 +4,13 @@
 
 주요특징:
 * JWT (Json Web Token) authentication 과  Spring Security를 이용한 Backend API 인증
-* JPA (Java Persistence API) 를 이용하여 database 테이블을 Entity class로 다양한 DBMS에 대응. 그리고, Entity를 이용한 DB 테이블 자동 생성.
+* JPA (Java Persistence API) 를 이용하여 database 테이블을 Entity class로 생성하여 sql 관리나 변경없이 다양한 DBMS에 즉시 대응. 그리고, EntityManager를 이용하여 Entity 클래스로 DB 테이블 자동 생성.
 * Swagger를 이용한 API Docs 자동화
 
 지원기능들:
-* 이메일, 패스워드, 이름을 기준으로 한 회원가입
-* Spring Security와 JWT token 생성을 이용한 로그인
-* JWT token을 이용한 회원정보(이메일/이름/직전로그인시간) 조회
+* 회원가입 API - 이메일, 패스워드, 이름
+* 로그인 API - Spring Security와 JWT token 생성
+* 회원정보 조회 API - JWT token을 이용한 회원정보(이메일/이름/직전로그인시간) 조회
 
 ---
 
